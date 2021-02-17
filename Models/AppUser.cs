@@ -12,33 +12,35 @@ namespace InternalIssues.Models
 {
     public class AppUser : IdentityUser
     {
+        public int CompanyId { get; set; }      //FK
+
+
         [Required]
         [StringLength(50)]
         public string FirstName { get; set; }
+
 
         [Required]
         [StringLength(50)]
         public string LastName { get; set; }
 
-        [Display(Name ="Full Name")]
+
+        [Display(Name = "Full Name")]
         [NotMapped]
-        public string DisplayName { get; set; }
+        public string FullName { get { return $"{FirstName} {LastName}"; } }
+
 
         [Display(Name = "Select Image")]
         [NotMapped]
         [DataType(DataType.Upload)]
         [MaxFileSize(2 * 1024 * 1024)]
-        [AllowedExtensionsAttribute(new string[] { ".jpg", ".png" })]
+        [AllowedExtensions(new string[] { ".jpg", ".png" })]
         public IFormFile AvatarFormFile { get; set; }
         public string AvatarFileName { get; set; }
         public byte[] AvatarFileData { get; set; }
 
-
-        public int CompanyId { get; set; }
-
-
+        //Navigational properties
         public virtual Company Company { get; set; }
-
 
         public virtual ICollection<Project> Projects { get; set; }
     }
