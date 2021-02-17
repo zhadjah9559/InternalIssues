@@ -34,7 +34,7 @@ namespace InternalIssues.Extensions
 
         public string GetErrorMessage()
         {
-
+            return $"Maximum allowed file size is { _maxFileSize } bytes.";
         }
 
     }

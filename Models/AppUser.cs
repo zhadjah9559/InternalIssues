@@ -28,7 +28,7 @@ namespace InternalIssues.Models
         [NotMapped]
         [DataType(DataType.Upload)]
         [MaxFileSize(2 * 1024 * 1024)]
-        [AllowedExtensions(new string[] { ".jpg", ".png" })]
+        [AllowedExtensionsAttribute(new string[] { ".jpg", ".png" })]
         public IFormFile AvatarFormFile { get; set; }
         public string AvatarFileName { get; set; }
         public byte[] AvatarFileData { get; set; }

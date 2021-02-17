@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace InternalIssues.Extensions
 {
-    public class AllowedExtensions : ValidationAttribute
+    public class AllowedExtensionsAttribute : ValidationAttribute
     {
         private readonly string[] _extensions;
 
-        public AllowedExtensions(string[] extensions)
+        public AllowedExtensionsAttribute(string[] extensions)
         {
             _extensions = extensions;
         }
@@ -23,7 +23,7 @@ namespace InternalIssues.Extensions
             if(file != null)
             {
                 var extension = Path.GetExtension(file.FileName);
-                if (!_extensions.Contains(extension.ToLower(extension)))
+                if (!_extensions.Contains(extension.ToLower()))
                 {
                     return new ValidationResult(GetErrorMessage(extension));
                 }

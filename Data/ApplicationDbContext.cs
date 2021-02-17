@@ -21,5 +21,9 @@ namespace InternalIssues.Data
         public DbSet<TicketPriority> TicketPriorities { get; set; }
         public DbSet<TicketStatus> TicketStatuses { get; set; }
         public DbSet<TicketType> TicketTypes { get; set; }        
+        public DbSet<InternalIssues.Models.Project> Project { get; set; }
+        public DbSet<InternalIssues.Models.Notification> Notification { get; set; }
+        public DbSet<InternalIssues.Models.Invite> Invite { get; set; }
+        public DbSet<InternalIssues.Models.Company> Company { get; set; }
     }
 }

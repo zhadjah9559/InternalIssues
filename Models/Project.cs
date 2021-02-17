@@ -31,7 +31,7 @@ namespace InternalIssues.Models
         [NotMapped]
         [DataType(DataType.Upload)]
         [MaxFileSize(2*1024*1024)]
-        [AllowedExtensions(new string[] { ".jpg", ".png" })]
+        [AllowedExtensionsAttribute(new string[] { ".jpg", ".png" })]
         public IFormFile ImageFormfile { get; set; }
         public string ImageFileName { get; set; }
         public byte[] ImageFileData { get; set; }
