@@ -14,7 +14,6 @@ namespace InternalIssues.Models
     {
         public int CompanyId { get; set; }      //FK
 
-
         [Required]
         [StringLength(50)]
         public string FirstName { get; set; }
@@ -28,6 +27,7 @@ namespace InternalIssues.Models
         [Display(Name = "Full Name")]
         [NotMapped]
         public string FullName { get { return $"{FirstName} {LastName}"; } }
+
 
 
         [Display(Name = "Select Image")]

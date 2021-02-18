@@ -8,6 +8,6 @@ namespace InternalIssues.Models
     public class TicketStatus
     {
         public int Id { get; set; }          //PK
-        public int Name { get; set; }    //FK
+        public string Name { get; set; }    //FK
     }
 }

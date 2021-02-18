@@ -7,7 +7,7 @@ namespace InternalIssues.Models
 {
     public class Company
     {
-        public int Id { get; set; }
+        public int Id { get; set; }     //FK
         public string Name { get; set; }
         public string Description { get; set; }
 
