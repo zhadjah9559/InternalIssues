@@ -52,7 +52,7 @@ namespace InternalIssues.Utilities
             return builder.ToString();
         }
 
-        private static async Task ManageDataAsync(IHost Host)
+        public static async Task ManageDataAsync(IHost Host)
         {
             //This technique is used to obtain references to  services that get registered in the 
             //ConfiguredServices method of the Startup class

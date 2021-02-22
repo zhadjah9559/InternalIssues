@@ -1,4 +1,7 @@
-﻿using InternalIssues.Models;
+﻿using InternalIssues.Data;
+using InternalIssues.Models;
+using InternalIssues.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -12,12 +15,19 @@ namespace InternalIssues.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IRoleService _roleService;
+        private readonly ApplicationDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, 
+                              IRoleService roleService,
+                              ApplicationDbContext context )
         {
             _logger = logger;
+            _roleService = roleService;
+            _context = context;
         }
 
+        [Authorize]
         public IActionResult Index()
         {
             return View();
@@ -25,6 +35,43 @@ namespace InternalIssues.Controllers
 
         public IActionResult Privacy()
         {
+            return View();
+        }
+
+        //HTTPGET
+        public IActionResult ManageRoles()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ManageRoles(List<string> userIds, string roleName)
+        {
+            //Go through all the userIds one at a time
+            foreach (var userId in userIds)
+            {
+                //Use the userId to find the whole user record 
+                AppUser user = await _context.Users.FindAsync(userId);
+                
+                //Make sure the user is not already in the role chosen
+                if(! await _roleService.IsUserInRoleAsync(user, roleName))
+                {
+                    //Find all the roles the user currently occupies
+                    var userRoles = await _roleService.ListUserRolesAsync(user);
+                    //Go through them one at a time 
+                    foreach(var role in userRoles)
+                    {
+                        //Remove the user from any and all roles they occupy
+                        await _roleService.RemoveUserFromRoleAsync(user, role);
+                    }
+
+                    //add the user to the chosen roleo
+                    await _roleService.AddUserToRoleAsync(user, roleName);
+
+                }
+            }
+
             return View();
         }
 

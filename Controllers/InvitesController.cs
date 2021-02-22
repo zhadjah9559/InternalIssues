@@ -51,8 +51,8 @@ namespace InternalIssues.Controllers
         public IActionResult Create()
         {
             ViewData["CompanyId"] = new SelectList(_context.Set<Company>(), "Id", "Id");
-            ViewData["InviteeId"] = new SelectList(_context.AppUsers, "Id", "Id");
-            ViewData["InvitorId"] = new SelectList(_context.AppUsers, "Id", "Id");
+            ViewData["InviteeId"] = new SelectList(_context.Users, "Id", "Id");
+            ViewData["InvitorId"] = new SelectList(_context.Users, "Id", "Id");
             return View();
         }
 
@@ -70,8 +70,8 @@ namespace InternalIssues.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CompanyId"] = new SelectList(_context.Set<Company>(), "Id", "Id", invite.CompanyId);
-            ViewData["InviteeId"] = new SelectList(_context.AppUsers, "Id", "Id", invite.InviteeId);
-            ViewData["InvitorId"] = new SelectList(_context.AppUsers, "Id", "Id", invite.InvitorId);
+            ViewData["InviteeId"] = new SelectList(_context.Users, "Id", "Id", invite.InviteeId);
+            ViewData["InvitorId"] = new SelectList(_context.Users, "Id", "Id", invite.InvitorId);
             return View(invite);
         }
 
@@ -89,8 +89,8 @@ namespace InternalIssues.Controllers
                 return NotFound();
             }
             ViewData["CompanyId"] = new SelectList(_context.Set<Company>(), "Id", "Id", invite.CompanyId);
-            ViewData["InviteeId"] = new SelectList(_context.AppUsers, "Id", "Id", invite.InviteeId);
-            ViewData["InvitorId"] = new SelectList(_context.AppUsers, "Id", "Id", invite.InvitorId);
+            ViewData["InviteeId"] = new SelectList(_context.Users, "Id", "Id", invite.InviteeId);
+            ViewData["InvitorId"] = new SelectList(_context.Users, "Id", "Id", invite.InvitorId);
             return View(invite);
         }
 
@@ -127,8 +127,8 @@ namespace InternalIssues.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CompanyId"] = new SelectList(_context.Set<Company>(), "Id", "Id", invite.CompanyId);
-            ViewData["InviteeId"] = new SelectList(_context.AppUsers, "Id", "Id", invite.InviteeId);
-            ViewData["InvitorId"] = new SelectList(_context.AppUsers, "Id", "Id", invite.InvitorId);
+            ViewData["InviteeId"] = new SelectList(_context.Users, "Id", "Id", invite.InviteeId);
+            ViewData["InvitorId"] = new SelectList(_context.Users, "Id", "Id", invite.InvitorId);
             return View(invite);
         }
 

@@ -1,4 +1,7 @@
 ﻿@model InternalIssues.Models.Project
+@using InternalIssues.Services 
+@inject IProjectService projectService 
+
 
 @{
     ViewData["Title"] = "Details";
@@ -46,3 +49,8 @@
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
+
+@foreach(var user in await projectService.UsersOnProjectAsync(Model.Id))
+{
+    <p>@user.FullName</p>
+}

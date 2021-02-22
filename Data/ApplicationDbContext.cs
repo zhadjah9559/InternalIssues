@@ -13,7 +13,7 @@ namespace InternalIssues.Data
             : base(options)
         {
         }
-        public DbSet<AppUser> AppUsers { get; set; }
+
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<TicketAttachment> TicketAttachments { get; set; }
         public DbSet<TicketComment> TicketComments{ get; set; }

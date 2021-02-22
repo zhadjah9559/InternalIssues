@@ -1,0 +1,42 @@
+﻿<div class="card">
+    <div class="card-body bg-info">
+        <h4 class="card-title">User Management</h4>
+        <form asp-action="ManageUsersOnProject" method="post">
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label class="custom-control-label h5">Choose a Project</label>
+                        <select name="projectId" class="form-control" asp-items="@ViewBag.Project"></select>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label class="=custom-control-label h5">Choose 1  Project Manager</label>
+                        <select name="projectManagerId" class="form-control" asp-items="@ViewBag.ProjectManagerId"></select>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="form-group">
+                        <label class="custom-control-label h5">Choose some Developers</label>
+                        <select name="projectId" multiple=multiple ""class="form-control" asp-items="@ViewBag.Project"></select>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label class="=custom-control-label h5">Choose some Submitters</label>
+                        <select name="projectManagerId" multiple="multiple" class="form-control" asp-items="@ViewBag.SubmitterIds"></select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-4" offset-4>
+
+                    <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

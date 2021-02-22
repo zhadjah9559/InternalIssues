@@ -16,6 +16,7 @@ using Microsoft.EntityFrameworkCore;
 using InternalIssues.Data;
 using InternalIssues.Models;
 using InternalIssues.Utilities;
+using InternalIssues.Services;
 
 namespace InternalIssues
 {
@@ -42,6 +43,12 @@ namespace InternalIssues
 
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+            //Registering all services and interfaces and the roleService
+            services.AddScoped<IRoleService, RoleService>();
+            services.AddScoped<IProjectService, ProjectService>();
+
+
 
             services.AddMvc();
         }

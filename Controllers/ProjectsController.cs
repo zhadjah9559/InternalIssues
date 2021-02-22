@@ -7,16 +7,61 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using InternalIssues.Data;
 using InternalIssues.Models;
+using InternalIssues.Services;
+using InternalIssues.Data.Enums;
 
 namespace InternalIssues.Controllers
 {
     public class ProjectsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IProjectService _projectService;
+        private readonly IRoleService _roleService;
 
-        public ProjectsController(ApplicationDbContext context)
+        public ProjectsController(ApplicationDbContext context,
+                                    IProjectService projectService,
+                                    IRoleService roleService)
         {
             _context = context;
+            _projectService = projectService;
+            _roleService = roleService;
+        }
+
+        //GET
+        public async Task<IActionResult> ManageUsersOnProject()
+        {
+            ViewData["ProjectId"] = new SelectList(_context.Set<Project>(), "Id", "Name");
+            ViewData["ProjectManagerId"] = new SelectList(await _roleService.UsersInRoleAsync(Roles.ProjectManager.ToString()), "Id", "FullName");
+            ViewData["DeveloperIds"] = new MultiSelectList(await _roleService.UsersInRoleAsync(Roles.Developer.ToString()), "Id", "FullName");
+            ViewData["SubmitterIds"] = new MultiSelectList(await _roleService.UsersInRoleAsync(Roles.Submitter.ToString()), "Id", "FullName");
+            return View();
+        }
+
+        //projectId
+        //projectManager
+        //developerId
+        //submitterIds
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ManageUsersOnProject(int projectId, string projectManagerId, 
+                                                              List<string> developerIds, List<string> submitterIds)
+        {
+            var currentlyOnProject = await _projectService.UsersOnProjectAsync(projectId);
+            foreach(var user in currentlyOnProject)
+            {
+                await _projectService.RemoveUserFromProjectAsync(user.Id, projectId);
+            }
+
+            await _projectService.AddUserToProjectAsync(projectManagerId, projectId);
+            foreach(var userId in developerIds)
+            {
+                await _projectService.AddUserToProjectAsync(userId, projectId);
+            }
+            foreach (var userId in developerIds)
+            {
+                await _projectService.AddUserToProjectAsync(userId, projectId);
+            }
+            return RedirectToAction();
         }
 
         // GET: Projects
@@ -48,7 +93,7 @@ namespace InternalIssues.Controllers
         // GET: Projects/Create
         public IActionResult Create()
         {
-            ViewData["CompanyId"] = new SelectList(_context.Set<Company>(), "Id", "Id");
+            ViewData["CompanyId"] = new SelectList(_context.Companies, "Id", "Id");
             return View();
         }
 
