@@ -13,14 +13,13 @@ using InternalIssues.Data.Enums;
 namespace InternalIssues.Controllers
 {
     public class ProjectsController : Controller
-    {
+    {   
         private readonly ApplicationDbContext _context;
         private readonly IProjectService _projectService;
         private readonly IRoleService _roleService;
 
-        public ProjectsController(ApplicationDbContext context,
-                                    IProjectService projectService,
-                                    IRoleService roleService)
+        //Overload constructor to implement ctor injection
+        public ProjectsController(ApplicationDbContext context, IProjectService projectService, IRoleService roleService)
         {
             _context = context;
             _projectService = projectService;
@@ -37,10 +36,6 @@ namespace InternalIssues.Controllers
             return View();
         }
 
-        //projectId
-        //projectManager
-        //developerId
-        //submitterIds
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ManageUsersOnProject(int projectId, string projectManagerId, 
@@ -80,7 +75,9 @@ namespace InternalIssues.Controllers
             }
 
             var project = await _context.Projects
-                .Include(p => p.Company)
+                .Include(m => m.Company)
+                .Include(m => m.Tickets)        //added
+                .Include(m => m.Members)        //added
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (project == null)
             {

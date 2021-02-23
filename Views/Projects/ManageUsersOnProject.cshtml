@@ -1,12 +1,12 @@
 ﻿<div class="card">
-    <div class="card-body bg-info">
+    <div class="card-body  bg-facebook">
         <h4 class="card-title">User Management</h4>
         <form asp-action="ManageUsersOnProject" method="post">
-            <div class="row">
+            <div class="row pb-5">
                 <div class="col">
                     <div class="form-group">
                         <label class="custom-control-label h5">Choose a Project</label>
-                        <select name="projectId" class="form-control" asp-items="@ViewBag.Project"></select>
+                        <select name="projectId" class="form-control" asp-items="@ViewBag.ProjectId"></select>
                     </div>
                 </div>
                 <div class="col">
@@ -15,11 +15,13 @@
                         <select name="projectManagerId" class="form-control" asp-items="@ViewBag.ProjectManagerId"></select>
                     </div>
                 </div>
+            </div>
 
+            <div class="row pb-1">
                 <div class="col">
                     <div class="form-group">
                         <label class="custom-control-label h5">Choose some Developers</label>
-                        <select name="projectId" multiple=multiple ""class="form-control" asp-items="@ViewBag.Project"></select>
+                        <select name="projectId" multiple="multiple" class="form-control" asp-items="@ViewBag.DeveloperIds"></select>
                     </div>
                 </div>
                 <div class="col">
@@ -29,8 +31,10 @@
                     </div>
                 </div>
             </div>
+                
+            
 
-            <div class="row">
+            <div class="row pb-3">
                 <div class="col-4" offset-4>
 
                     <button type="submit" class="btn btn-primary btn-lg">Submit</button>

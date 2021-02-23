@@ -14,11 +14,13 @@ namespace InternalIssues.Services
 {
     public class ProjectService : IProjectService
     {
+        //Private variables will allow for more security, protect from Database intrusion, etc
         private readonly ApplicationDbContext _context;
-        private readonly UserManager<AppUser> _userManager;
-        private readonly IHttpContextAccessor _contextAccessor;
+        private readonly UserManager<AppUser> _userManager; 
+        private readonly IHttpContextAccessor _contextAccessor;     
         private readonly IRoleService _roleService;
 
+        //Overload the constructor to implement constructor injection
         public ProjectService(ApplicationDbContext context, 
                               UserManager<AppUser> userManager,
                               IHttpContextAccessor contextAccessor,
@@ -75,6 +77,7 @@ namespace InternalIssues.Services
             }
         }
 
+        //Return collection of "Developers" on a specified project
         public async Task<IEnumerable<AppUser>> DevelopersOnProjectAsync(int projectId)
         {
             var developers = await _userManager.GetUsersInRoleAsync(Roles.Developer.ToString());
@@ -85,6 +88,7 @@ namespace InternalIssues.Services
 
         }
 
+        //Check if a user is on a project
         public async Task<bool> IsUserOnProjectAsync(string userId, int projectId)
         {
             var project = await _context.Projects.FindAsync(projectId);
@@ -92,6 +96,7 @@ namespace InternalIssues.Services
             return flag;
         }
 
+        //Return collection of type Project not on a specified project
         public async Task<IEnumerable<Project>> ListUserProjectsAsync(string userId)
         {
             //Check the request to see if the user is an Admin - if so return all projects
@@ -118,6 +123,7 @@ namespace InternalIssues.Services
             return output;
         }
 
+        //Return the project manager on a specified project
         public async Task<AppUser> ProjectManagerOnProjectAsync(int projectId)
         {
             var projectManagers = await _userManager.GetUsersInRoleAsync( Roles.ProjectManager.ToString() );
@@ -158,6 +164,7 @@ namespace InternalIssues.Services
             }
         }
 
+        //Submitters on projects
         public async Task<IEnumerable<AppUser>> SubmitterOnProjectsAsync(int projectId)
         {
             var submitters = await _userManager.GetUsersInRoleAsync( Roles.Submitter.ToString() );
@@ -167,6 +174,7 @@ namespace InternalIssues.Services
             return devsOnPorject.ToList();
         }
 
+        //Return collection of type user not on a specified project
         public async Task<IEnumerable<AppUser>> UsersNotOnProjectAsync(int projectId)
         {
             var output = new List<AppUser>();
@@ -185,6 +193,7 @@ namespace InternalIssues.Services
             return output;
         }
 
+        //Return collection of type user on a specified project
         public async Task<IEnumerable<AppUser>> UsersOnProjectAsync(int projectId)
         {
             var output = new List<AppUser>();

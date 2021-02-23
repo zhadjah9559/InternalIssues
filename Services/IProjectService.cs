@@ -35,6 +35,5 @@ namespace InternalIssues.Services
         //Project Managers on Project
         public Task<AppUser> ProjectManagerOnProjectAsync(int projectId);
 
-        //Maybe you could have a ListMyProjects method that gets the Projects for the logged in user
     }
 }

@@ -37,6 +37,7 @@ namespace InternalIssues
             services.AddDatabaseDeveloperPageExceptionFilter();
                         
             services.AddIdentity<AppUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
+                    .AddClaimsPrincipalFactory<AppUserClaimsPrincipalFactory>()
                     .AddDefaultUI()
                     .AddDefaultTokenProviders()
                     .AddEntityFrameworkStores<ApplicationDbContext>();

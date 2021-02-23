@@ -12,10 +12,11 @@ namespace InternalIssues.Services
 {
     public class RoleService : IRoleService
     {
+        //private methods for securities
         private readonly ApplicationDbContext _context;
         private readonly UserManager<AppUser> _userManager;
 
-                           //inject the UserManager and _context
+        //Overload the constructor to implement constructor injection
         public RoleService(ApplicationDbContext context, UserManager<AppUser> userManager)
         {
             _context = context;
@@ -41,7 +42,7 @@ namespace InternalIssues.Services
             return await _userManager.GetRolesAsync(user);
         }
 
-
+        //Return a collection of all roles that aren't created for demonstration purposes
         public IEnumerable<IdentityRole> NonDemoRoles()
         {
             var roles =  _context.Roles;
@@ -57,7 +58,7 @@ namespace InternalIssues.Services
             return output;
         }
 
-
+        //Remove a specified user from a role, return bool if successful
         public async Task<bool> RemoveUserFromRoleAsync(AppUser user, string roleName)
         {
             var result = await _userManager.RemoveFromRoleAsync(user, roleName);

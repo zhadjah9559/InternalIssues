@@ -1,20 +1,20 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using InternalIssues.Services
-@inject UserManager<AppUser> userManager  
+@inject UserManager<AppUser> userManager
 @inject IRoleService roleService
 
-@{ 
-    var users = new MultiSelectList(userManager.Users, "Id","FullName");
+@{
+    var users = new MultiSelectList(userManager.Users, "Id", "FullName");
     var roles = new SelectList(roleService.NonDemoRoles(), "Name", "Name");
 }
 
 
 @*This form will allow the admin to change the roles of user.
-It features a multiple drop down list. First the HttpGet will
-be called inside of the controller. After the view is display, 
-the admin will chose which roles they want to change. The form 
-info with who the admin has chosen will be sent to home 
-controller, and the HttpPost ManageRoles() action*@
+    It features a multiple drop down list. First the HttpGet will
+    be called inside of the controller. After the view is display,
+    the admin will chose which roles they want to change. The form
+    info with who the admin has chosen will be sent to home
+    controller, and the HttpPost ManageRoles() action*@
 <div class="card">
     <div class="card-body bg-info">
         <h4 class="card-title">Role Management</h4>
@@ -38,36 +38,35 @@ controller, and the HttpPost ManageRoles() action*@
         </form>
     </div>
 </div>
-            
 
-<div class="row mt-2">
-    <div class="col">
-        <div class="card bg-secondary">
-            <div class="card-body">
-                <h3 class="card-title">Employee - Role</h3>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Employee</th>
-                            <th>Role</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var user in userManager.Users.ToList())
+@*Putting all users inside bootstrap template card*@
+<div class="card-body" style="background-color: white">
+    <h4 class="card-title">User Roles</h4>
+    <table class="table" >
+        <thead>
+            <tr>
+                <th>FirstName</th>
+                <th>LastName</th>
+                <th>Role</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var user in userManager.Users.ToList())
+            {
+                <tr>
+                    <td>@user.FirstName</td>
+                    <td>@user.LastName</td>
+                    <td>
+                        @foreach (var role in (await roleService.ListUserRolesAsync(user)))
                         {
-                            <tr>
-                                <td>@user.FullName</td>
-                            </tr>
-                            <td>
-                                @foreach (var role in (await roleService.ListUserRolesAsync(user)))
-                                {
-                                    <p>@role</p>
-                                }
-                            </td>
+                            <p>@role</p>
                         }
-                     </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
 </div>
+@*Putting all users inside bootstrap template card*@
