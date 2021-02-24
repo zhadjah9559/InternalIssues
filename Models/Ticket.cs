@@ -40,11 +40,11 @@ namespace InternalIssues.Models
         public string OwnerUserId { get; set; }
         public string DeveloperUserId { get; set; }
 
-        //Navigational Properties are all children of Ticket
+        //Navigational Properties 
         public virtual Project Project { get; set; }
         public virtual TicketType TicketType { get; set; }
         public virtual TicketPriority TicketPriority{ get; set; }   
-        public virtual TicketStatus TicketStaus { get; set; }
+        public virtual TicketStatus TicketStatus { get; set; }
         public virtual AppUser OwnerUser { get; set; }
         public virtual AppUser DeveloperUser { get; set; }
 

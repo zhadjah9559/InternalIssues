@@ -1,4 +1,7 @@
-﻿@model InternalIssues.Models.Ticket
+﻿@using InternalIssues.Models 
+@model Ticket
+
+
 
 @{
     ViewData["Title"] = "Details";
@@ -10,64 +13,64 @@
     <h4>Ticket</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Title)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Title)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Description)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Description)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Created)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Created)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Updated)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Updated)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.TicketTypeId)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.TicketTypeId)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Project)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Project.Name)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.TicketPriority)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.TicketPriority.Id)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TicketStaus)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TicketStatus)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TicketStaus.Id)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TicketStatus.Id)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.OwnerUser)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.OwnerUser.Id)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.DeveloperUser)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.DeveloperUser.Id)
         </dd>
     </dl>
@@ -76,3 +79,68 @@
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
+
+
+@*Adding comments section*@
+@*ADDING COMMENTS*@
+
+@if (User.Identity.IsAuthenticated)
+{
+<form asp-controller="Tickets" asp-action="Create">
+    @*Use this as one of the binding items for the create action bind*@
+    @Html.Hidden("TicketId", Model.Id)
+
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h3>Comments (@Model.Comments.Count)</h3>
+            </div>
+        </div>
+
+        @*Listing all the comments inside the Post*@
+        @foreach (var comment in Model.Comments.OrderByDescending(c => c.Created))
+        {
+            <div class="row">
+                <div class="col">
+                    <h6>@comment.Created.ToString("f") </h6>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <i>@comment.AppUser.FullName:</i>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    @comment.CommentBody
+                </div>
+            </div>
+            <br />
+        }
+        @*Listing all the comments inside the Post*@
+
+
+        <div class="row pt-2 pb-5">
+            <div class="col">
+                <textarea name="CommentBody" required="required" class="form-control" rows="7" placeholder="Leave a comment"></textarea>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <button type="submit" class="btn btn-primary" style="width:30%;">Add Comment</button>
+            </div>
+        </div>
+    </div>
+</form>
+}
+else
+{
+    @*Step1: Give th euser an oppurtunity to either:
+        Login to add comment*@
+    <h1>Please login to enter a comment </h1>
+}
+
+@*ADDING COMMENTS*@

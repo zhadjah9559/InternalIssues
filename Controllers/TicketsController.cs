@@ -7,22 +7,28 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using InternalIssues.Data;
 using InternalIssues.Models;
+using Microsoft.AspNetCore.Identity;
+using InternalIssues.Services;
 
 namespace InternalIssues.Controllers
 {
     public class TicketsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<AppUser> _userManager;
+        private readonly IHistoryService _historyService;
 
-        public TicketsController(ApplicationDbContext context)
+        public TicketsController(ApplicationDbContext context, UserManager<AppUser> userManager, IHistoryService historyService)
         {
             _context = context;
+            _userManager = userManager;
+            _historyService = historyService;
         }
 
         // GET: Tickets
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Tickets.Include(t => t.DeveloperUser).Include(t => t.OwnerUser).Include(t => t.Project).Include(t => t.TicketPriority).Include(t => t.TicketStaus);
+            var applicationDbContext = _context.Tickets.Include(t => t.DeveloperUser).Include(t => t.OwnerUser).Include(t => t.Project).Include(t => t.TicketPriority).Include(t => t.TicketStatus);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -39,7 +45,7 @@ namespace InternalIssues.Controllers
                 .Include(t => t.OwnerUser)
                 .Include(t => t.Project)
                 .Include(t => t.TicketPriority)
-                .Include(t => t.TicketStaus)
+                .Include(t => t.TicketStatus)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (ticket == null)
             {
@@ -82,6 +88,29 @@ namespace InternalIssues.Controllers
             return View(ticket);
         }
 
+        //Overloaded Create action
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("TicketId,CommentBody")] TicketComment ticketComment)
+        {
+            if (ModelState.IsValid)
+            {
+                ticketComment.Created = DateTime.Now;
+
+                //This gets access to whoever is currently logged in
+                ticketComment.AppUserId = _userManager.GetUserId(User);
+
+                _context.Add(ticketComment);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction("Details", "Tickets");
+            }
+            //ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id", ticketComment.AppUserId);
+            //ViewData["TicketId"] = new SelectList(_context.Tickets, "Id", "Id", ticketComment.TicketId);
+            return View(ticketComment);
+        }
+
+
         // GET: Tickets/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -115,13 +144,41 @@ namespace InternalIssues.Controllers
                 return NotFound();
             }
 
+            //Get Old Ticket
+            Ticket oldTicket = await _context.Tickets
+                               .Include(t => t.TicketType)
+                               .Include(t => t.TicketPriority)
+                               .Include(t => t.TicketStatus)
+                               .Include(t => t.Project)
+                               .Include(t => t.DeveloperUser)
+                               .AsNoTracking().FirstOrDefaultAsync(t => t.Id == id);
+
             if (ModelState.IsValid)
             {
                 try
                 {
                     _context.Update(ticket);
                     await _context.SaveChangesAsync();
+
+                    //Add History
+                    //Get User Id
+                    string userId = _userManager.GetUserId(User);
+
+                    //Get New Ticket
+                    Ticket newTicket = await _context.Tickets
+                                       .Include(t => t.TicketType)
+                                       .Include(t => t.TicketPriority)
+                                       .Include(t => t.TicketStatus)
+                                       .Include(t => t.Project)
+                                       .Include(t => t.DeveloperUser)
+                                       .AsNoTracking().FirstOrDefaultAsync(t => t.Id == id);
+
+                    //Call History Service
+                    await _historyService.AddHistoryAsync(oldTicket, newTicket, userId);
+
                 }
+
+
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!TicketExists(ticket.Id))
@@ -135,6 +192,8 @@ namespace InternalIssues.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+
+
             ViewData["DeveloperUserId"] = new SelectList(_context.Users, "Id", "Id", ticket.DeveloperUserId);
             ViewData["OwnerUserId"] = new SelectList(_context.Users, "Id", "Id", ticket.OwnerUserId);
             ViewData["ProjectId"] = new SelectList(_context.Set<Project>(), "Id", "Name", ticket.ProjectId);
@@ -156,7 +215,7 @@ namespace InternalIssues.Controllers
                 .Include(t => t.OwnerUser)
                 .Include(t => t.Project)
                 .Include(t => t.TicketPriority)
-                .Include(t => t.TicketStaus)
+                .Include(t => t.TicketStatus)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (ticket == null)
             {

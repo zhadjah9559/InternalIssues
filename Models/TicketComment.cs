@@ -8,7 +8,23 @@ namespace InternalIssues.Models
 {
     public class TicketComment
     {
-        public int Id { get; set; }         //PK
-        public string Name { get; set; }    //FK              
+        public int Id { get; set; }              //PK
+        public int TicketId { get; set; }        //FK
+        public string AppUserId { get; set; }    //FK      
+
+        [Required]
+        [StringLength(300, ErrorMessage = "The {0} must be at least {2} and no more than {1} characters long.", MinimumLength = 5)]
+        public string CommentBody { get; set; }
+
+        [Display(Name = "Created Date")]
+        public DateTime Created { get; set; }
+
+        [Display(Name = "Created Date")]
+        public DateTime? Updated { get; set; }
+
+        //Navigational properties
+        public virtual Ticket Ticket { get; set; }
+        public virtual AppUser AppUser { get; set; }
+
     }
 }

@@ -17,6 +17,7 @@ using InternalIssues.Data;
 using InternalIssues.Models;
 using InternalIssues.Utilities;
 using InternalIssues.Services;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace InternalIssues
 {
@@ -45,10 +46,15 @@ namespace InternalIssues
             services.AddControllersWithViews();
             services.AddRazorPages();
 
-            //Registering all services and interfaces and the roleService
+            //Registering custpm made roles
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<IProjectService, ProjectService>();
+            services.AddScoped<IHistoryService, HistoryService>();
 
+
+            //Register The email service
+            services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
+            services.AddScoped<IEmailSender, EmailService>();
 
 
             services.AddMvc();
