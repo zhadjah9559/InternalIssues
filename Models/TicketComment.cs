@@ -17,10 +17,10 @@ namespace InternalIssues.Models
         public string CommentBody { get; set; }
 
         [Display(Name = "Created Date")]
-        public DateTime Created { get; set; }
+        public DateTimeOffset Created { get; set; }
 
         [Display(Name = "Created Date")]
-        public DateTime? Updated { get; set; }
+        public DateTimeOffset? Updated { get; set; }
 
         //Navigational properties
         public virtual Ticket Ticket { get; set; }

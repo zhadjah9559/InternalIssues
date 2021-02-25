@@ -1,4 +1,4 @@
-﻿@using InternalIssues.Models 
+﻿@using InternalIssues.Models
 @model Ticket
 
 
@@ -81,66 +81,227 @@
 </div>
 
 
-@*Adding comments section*@
-@*ADDING COMMENTS*@
 
-@if (User.Identity.IsAuthenticated)
-{
-<form asp-controller="Tickets" asp-action="Create">
-    @*Use this as one of the binding items for the create action bind*@
-    @Html.Hidden("TicketId", Model.Id)
+@*Ticket Attachments*@
+<div>
+    <form asp-action="Create" asp-controller="TicketAttachments" enctype="multipart/form-data" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="@Model.Id" name="TicketId">
 
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <h3>Comments (@Model.Comments.Count)</h3>
-            </div>
+        <div class="media-body ml-3">
+            <label class="form-label d-block mb-2">Add Attachment</label>
+            <label>
+                Description
+                <input asp-for="@Model.Attachments.FirstOrDefault().Description" type="text" class="form-control" />
+            </label><br />
+            <label class="btn btn-outline-primary btn-sm">
+                <input asp-for="@Model.Attachments.FirstOrDefault().FormFile" type="file" />
+            </label>
+            <button type="submit" class="btn btn-outline-secondary btn-sm md-btn-flat">Submit</button>
         </div>
+    </form>
+</div>
+@*Ticket Attachments*@
 
-        @*Listing all the comments inside the Post*@
-        @foreach (var comment in Model.Comments.OrderByDescending(c => c.Created))
-        {
-            <div class="row">
-                <div class="col">
-                    <h6>@comment.Created.ToString("f") </h6>
+
+@*Antonio's example*@
+
+<div class="row">
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-controler="TicketComments" asp-action="Create">
+                <input type="hidden" value="@Model.Id" asp-for="@Model.Comments.FirstOrDefault().TicketId" />
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="@Model.Comments" class="control-label"></label>
+                    <input name="Comment" class="form-control" />
+                    <span for="Comments" class="text-danger"></span>
                 </div>
-            </div>
 
-            <div class="row">
-                <div class="col">
-                    <i>@comment.AppUser.FullName:</i>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
                 </div>
-            </div>
-
-            <div class="row">
-                <div class="col">
-                    @comment.CommentBody
-                </div>
-            </div>
-            <br />
-        }
-        @*Listing all the comments inside the Post*@
-
-
-        <div class="row pt-2 pb-5">
-            <div class="col">
-                <textarea name="CommentBody" required="required" class="form-control" rows="7" placeholder="Leave a comment"></textarea>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col">
-                <button type="submit" class="btn btn-primary" style="width:30%;">Add Comment</button>
-            </div>
+            </form>
         </div>
     </div>
-</form>
-}
-else
-{
-    @*Step1: Give th euser an oppurtunity to either:
-        Login to add comment*@
-    <h1>Please login to enter a comment </h1>
-}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Comment
+                </th>
+                <th>
+                    Created
+                </th>
+                <th>
+                    Updated
+                </th>
+                <th>
+                    Ticket
+                </th>
+                <th>
+                    AppUser
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Comments)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CommentBody)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Created)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Updated)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Ticket.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AppUser.Id)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
 
-@*ADDING COMMENTS*@
+
+
+
+
+<h4>Attachments</h4>
+<div class="row">
+
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    FileName
+                </th>
+                <th>
+                    FileData
+                </th>
+                <th>
+                    Description
+                </th>
+                <th>
+                    Created
+                </th>
+                <th>
+                    Ticket
+                </th>
+                <th>
+                    User
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Attachments)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FileName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FileData)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Created)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Ticket.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.User.Id)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+<h4>Histories</h4>
+<div class="row">
+
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Property Name
+                </th>
+                <th>
+                    Old Value
+                </th>
+                <th>
+                    New Value
+                </th>
+                <th>
+                    Created
+                </th>
+                <th>
+                    Ticket
+                </th>
+                <th>
+                    User
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Histories)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Property)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OldValue)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NewValue)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Created)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Ticket.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.User.Id)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@*Antonio's example*@

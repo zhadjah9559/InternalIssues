@@ -20,12 +20,15 @@
     <link href="~/css/typicons.css" rel="stylesheet" />
     <link href="~/css/style.css" rel="stylesheet" />
     <link href="~/css/style_1.css" rel="stylesheet" />
-    <link rel="shortcut icon icon" href="~/images/favicon.png" />
-    <link href="~/scss/_auth.scss" rel="stylesheet" />
-    <link href="~/scss/_dashboard.scss" rel="stylesheet" />
-    @*<link href="~/css/font-awesome.min.css" rel="stylesheet" />*@
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="shortcut icon" href="~/images/favicon.png" />
+    @*<link href="~/scss/_auth.scss" rel="stylesheet" />
+    <link href="~/scss/_dashboard.scss" rel="stylesheet" />*@
+    @*<link href="~/scss/_icons.scss" rel="stylesheet" />
+    <link href="~/scss/_core.scss" rel="stylesheet" />
+    <link href="~/scss/_reboot.scss" rel="stylesheet" />
+    <link href="~/scss/_sidebar.scss" rel="stylesheet" />*@
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     @*BOOTSTRAP TEMPLATE ADDITIONS*@
 
@@ -47,48 +50,20 @@
                 <!-- partial:partials/_navbar.html -->
                 <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
                     <div class="text-center navbar-brand-wrapper d-flex align-items-top justify-content-center">
-                        <a class="navbar-brand brand-logo" href="index.html">
-                            <img src="assets/images/logo.svg" alt="logo" />
+                        <a class="navbar-brand brand-logo" href="#">
+                            <img src="~/images/Logo.png" alt="logo" />
                         </a>
                         <a class="navbar-brand brand-logo-mini" href="index.html">
-                            <img src="assets/images/logo-mini.svg" alt="logo" />
+                            <img src="~/images/logo-mini.svg" alt="logo" />
                         </a>
                     </div>
                     <div class="navbar-menu-wrapper d-flex align-items-center">
                         <ul class="navbar-nav">
-                            <li class="nav-item font-weight-semibold d-none d-lg-block">Help : +050 2992 709</li>
-                            <li class="nav-item dropdown language-dropdown">
-                                <a class="nav-link dropdown-toggle px-2 d-flex align-items-center" id="LanguageDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
-                                    <div class="d-inline-flex mr-0 mr-md-3">
-                                        <div class="flag-icon-holder">
-                                            <i class="flag-icon flag-icon-us"></i>
-                                        </div>
-                                    </div>
-                                    <span class="profile-text font-weight-medium d-none d-md-block">English</span>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-left navbar-dropdown py-2" aria-labelledby="LanguageDropdown">
-                                    <a class="dropdown-item">
-                                        <div class="flag-icon-holder">
-                                            <i class="flag-icon flag-icon-us"></i>
-                                        </div>English
-                                    </a>
-                                    <a class="dropdown-item">
-                                        <div class="flag-icon-holder">
-                                            <i class="flag-icon flag-icon-fr"></i>
-                                        </div>French
-                                    </a>
-                                    <a class="dropdown-item">
-                                        <div class="flag-icon-holder">
-                                            <i class="flag-icon flag-icon-ae"></i>
-                                        </div>Arabic
-                                    </a>
-                                    <a class="dropdown-item">
-                                        <div class="flag-icon-holder">
-                                            <i class="flag-icon flag-icon-ru"></i>
-                                        </div>Russian
-                                    </a>
-                                </div>
-                            </li>
+                            <a href="https://www.zacharyhadjah.com/" target="_blank">
+                                <li class="nav-item font-weight-semibold d-none d-lg-block">Contact Developer</li>
+                            </a>
+                            
+                            
                         </ul>
                         <form class="ml-auto search-form d-none d-md-block" action="#">
                             <div class="form-group">
@@ -334,7 +309,7 @@
 
     </div>
 
-
+    <script src="~/js/Chart.min.js"></script>
     <script src="~/js/site.js"></script>
     <script src="~/js/vendor.bundle.base.js"></script>
     <script src="~/js/off-canvas.js"></script>
@@ -342,6 +317,12 @@
     <script src="~/js/misc.js"></script>
     <script src="~/js/settings.js"></script>
     <script src="~/js/dashboard.js"></script>
+    <script src="~/js/off-canvas.js"></script>
+    <script src="~/js/todolist.js"></script>
+
+
+
+
 
     @await RenderSectionAsync("Scripts", required: false)
 

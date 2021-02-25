@@ -7,22 +7,26 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using InternalIssues.Data;
 using InternalIssues.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace InternalIssues.Controllers
 {
     public class TicketCommentsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<AppUser> _userManager;
 
-        public TicketCommentsController(ApplicationDbContext context)
+        public TicketCommentsController(ApplicationDbContext context, UserManager<AppUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: TicketComments
         public async Task<IActionResult> Index()
         {
-            return View(await _context.TicketComments.ToListAsync());
+            var applicationDbContext = _context.TicketComments.Include(t => t.AppUser).Include(t => t.Ticket);
+            return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: TicketComments/Details/5
@@ -34,6 +38,8 @@ namespace InternalIssues.Controllers
             }
 
             var ticketComment = await _context.TicketComments
+                .Include(t => t.AppUser)
+                .Include(t => t.Ticket)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (ticketComment == null)
             {
@@ -46,6 +52,8 @@ namespace InternalIssues.Controllers
         // GET: TicketComments/Create
         public IActionResult Create()
         {
+            ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id");
+            ViewData["TicketId"] = new SelectList(_context.Tickets, "Id", "Description");
             return View();
         }
 
@@ -54,14 +62,18 @@ namespace InternalIssues.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name")] TicketComment ticketComment)
+        public async Task<IActionResult> Create([Bind("Id,CommentBody,TicketId")] TicketComment ticketComment)
         {
             if (ModelState.IsValid)
             {
+                ticketComment.AppUserId = _userManager.GetUserId(User);
+                ticketComment.Created = DateTimeOffset.Now;
                 _context.Add(ticketComment);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", "Tickets", new { id = ticketComment.TicketId });
             }
+            ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id", ticketComment.AppUserId);
+            ViewData["TicketId"] = new SelectList(_context.Tickets, "Id", "Description", ticketComment.TicketId);
             return View(ticketComment);
         }
 
@@ -78,6 +90,8 @@ namespace InternalIssues.Controllers
             {
                 return NotFound();
             }
+            ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id", ticketComment.AppUserId);
+            ViewData["TicketId"] = new SelectList(_context.Tickets, "Id", "Description", ticketComment.TicketId);
             return View(ticketComment);
         }
 
@@ -86,7 +100,7 @@ namespace InternalIssues.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] TicketComment ticketComment)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,TicketId,AppUserId,CommentBody,Created,Updated")] TicketComment ticketComment)
         {
             if (id != ticketComment.Id)
             {
@@ -113,6 +127,8 @@ namespace InternalIssues.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id", ticketComment.AppUserId);
+            ViewData["TicketId"] = new SelectList(_context.Tickets, "Id", "Description", ticketComment.TicketId);
             return View(ticketComment);
         }
 
@@ -125,6 +141,8 @@ namespace InternalIssues.Controllers
             }
 
             var ticketComment = await _context.TicketComments
+                .Include(t => t.AppUser)
+                .Include(t => t.Ticket)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (ticketComment == null)
             {

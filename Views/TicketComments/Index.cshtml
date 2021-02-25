@@ -15,6 +15,18 @@
             <th>
                 @Html.DisplayNameFor(model => model.CommentBody)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Created)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Updated)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ticket)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AppUser)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -23,6 +35,18 @@
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.CommentBody)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Created)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Updated)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ticket.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AppUser.Id)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

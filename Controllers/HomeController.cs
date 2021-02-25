@@ -3,6 +3,7 @@ using InternalIssues.Models;
 using InternalIssues.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -30,7 +31,11 @@ namespace InternalIssues.Controllers
         [Authorize]
         public IActionResult Index()
         {
-            return View();
+            var model = _context.Tickets.Include(t => t.TicketStatus)
+                                        .Include(t => t.TicketPriority)
+                                        .ToList();
+
+            return View(model);
         }
 
         public IActionResult Privacy()
@@ -72,6 +77,11 @@ namespace InternalIssues.Controllers
                 }
             }
 
+            return View();
+        }
+
+        public IActionResult LandingPage()
+        {
             return View();
         }
 

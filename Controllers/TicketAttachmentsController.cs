@@ -7,16 +7,20 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using InternalIssues.Data;
 using InternalIssues.Models;
+using System.IO;
+using Microsoft.AspNetCore.Identity;
 
 namespace InternalIssues.Controllers
 {
     public class TicketAttachmentsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<AppUser> _userManager;
 
-        public TicketAttachmentsController(ApplicationDbContext context)
+        public TicketAttachmentsController(ApplicationDbContext context, UserManager<AppUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: TicketAttachments
@@ -54,15 +58,37 @@ namespace InternalIssues.Controllers
             return View();
         }
 
-        // POST: TicketAttachments/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //Overloaded create action
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Create([Bind("Id,TicketId,UserId,FileName,FileData,Description,Created")] TicketAttachment ticketAttachment)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        _context.Add(ticketAttachment);
+        //        await _context.SaveChangesAsync();
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    ViewData["TicketId"] = new SelectList(_context.Tickets, "Id", "Description", ticketAttachment.TicketId);
+        //    ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", ticketAttachment.UserId);
+        //    return View(ticketAttachment);
+        //}
+
+        //Overloaded Create action
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,TicketId,UserId,FileName,FileData,Description,Created")] TicketAttachment ticketAttachment)
+        public async Task<IActionResult> Create([Bind("Id,FormFile,Image,Description,Created,TicketId,UserId")] TicketAttachment ticketAttachment)
         {
             if (ModelState.IsValid)
             {
+                MemoryStream ms = new MemoryStream();
+                await ticketAttachment.FormFile.CopyToAsync(ms);
+
+                ticketAttachment.FileData = ms.ToArray();
+                ticketAttachment.FileName = ticketAttachment.FormFile.FileName;
+                ticketAttachment.Created = DateTimeOffset.Now;
+                ticketAttachment.UserId = _userManager.GetUserId(User);
+
                 _context.Add(ticketAttachment);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

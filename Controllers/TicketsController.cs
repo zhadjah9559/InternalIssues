@@ -46,6 +46,10 @@ namespace InternalIssues.Controllers
                 .Include(t => t.Project)
                 .Include(t => t.TicketPriority)
                 .Include(t => t.TicketStatus)
+                .Include(t => t.TicketType)
+                .Include(t => t.Attachments)
+                .Include(t => t.Comments)
+                .Include(t => t.Histories)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (ticket == null)
             {
@@ -151,6 +155,8 @@ namespace InternalIssues.Controllers
                                .Include(t => t.TicketStatus)
                                .Include(t => t.Project)
                                .Include(t => t.DeveloperUser)
+                               .Include(t => t.Histories)
+                               .Include(t => t.OwnerUser)
                                .AsNoTracking().FirstOrDefaultAsync(t => t.Id == id);
 
             if (ModelState.IsValid)
