@@ -16,13 +16,10 @@
                 <div class="collapse" id="tickets">
                     <ul class="nav flex-column sub-menu">
                         <li class="nav-item">
-                            <a class="nav-link" href="pages/ui-features/buttons.html">Buttons</a>
+                            <a class="nav-link" asp-controller="Tickets" asp-action="Index">All Tickets</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="pages/ui-features/dropdowns.html">Dropdowns</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="pages/ui-features/typography.html">Typography</a>
+                            <a class="nav-link" href="pages/ui-features/dropdowns.html">Submit</a>
                         </li>
                     </ul>
                 </div>
@@ -38,13 +35,13 @@
                 <div class="collapse" id="Projects">
                     <ul class="nav flex-column sub-menu">
                         <li class="nav-item">
-                            <a class="nav-link" href="pages/ui-features/buttons.html">Buttons</a>
+                            <a class="nav-link" asp-controller="Projects" asp-action="Create">New Project</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="pages/ui-features/dropdowns.html">Dropdowns</a>
+                            <a class="nav-link" asp-controller="Projects" asp-action="ManageUsersOnProject">Manage Users on Project</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="pages/ui-features/typography.html">Typography</a>
+                            <a class="nav-link" asp-controller="Projects" asp-action="Index">All Projects</a>
                         </li>
                     </ul>
                 </div>
@@ -60,14 +57,8 @@
                 <div class="collapse" id="User-Roles">
                     <ul class="nav flex-column sub-menu">
                         <li class="nav-item">
-                            <a class="nav-link" href="pages/ui-features/buttons.html">Buttons</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="pages/ui-features/dropdowns.html">Dropdowns</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="pages/ui-features/typography.html">Typography</a>
-                        </li>
+                            <a class="nav-link" asp-controller="Home" asp-action="ManageRoles">Manage Roles</a>
+                        </li>                        
                     </ul>
                 </div>
             </li>
