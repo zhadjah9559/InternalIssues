@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+
+//This class deserializes the information inside the MailSettings object that was created inside the appsettings.json folder
 namespace InternalIssues.Models
 {
     public class MailSettings

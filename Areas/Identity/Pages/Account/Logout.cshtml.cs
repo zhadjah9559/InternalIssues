@@ -37,7 +37,7 @@ namespace InternalIssues.Areas.Identity.Pages.Account
             }
             else
             {
-                return RedirectToPage();
+                return RedirectToPage("Identity/Pages/Account/Manage/Login.cshtml");
             }
         }
     }
