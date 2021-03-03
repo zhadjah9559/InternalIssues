@@ -20,14 +20,14 @@
     <link href="~/css/typicons.css" rel="stylesheet" />
     <link href="~/css/style.css" rel="stylesheet" />
     <link href="~/css/style_1.css" rel="stylesheet" />
+    <link href="~/css/custom.css" rel="stylesheet" />
     <link rel="shortcut icon" href="~/images/favicon.png" />
     @*<link href="~/scss/_auth.scss" rel="stylesheet" />
-    <link href="~/scss/_dashboard.scss" rel="stylesheet" />*@
+        <link href="~/scss/_dashboard.scss" rel="stylesheet" />*@
     @*<link href="~/scss/_icons.scss" rel="stylesheet" />
-    <link href="~/scss/_core.scss" rel="stylesheet" />
-    <link href="~/scss/_reboot.scss" rel="stylesheet" />
-    <link href="~/scss/_sidebar.scss" rel="stylesheet" />*@
-
+        <link href="~/scss/_core.scss" rel="stylesheet" />
+        <link href="~/scss/_reboot.scss" rel="stylesheet" />
+        <link href="~/scss/_sidebar.scss" rel="stylesheet" />*@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     @*BOOTSTRAP TEMPLATE ADDITIONS*@
@@ -59,8 +59,8 @@
                             <a href="https://www.zacharyhadjah.com/" target="_blank">
                                 <li class="nav-item font-weight-semibold d-none d-lg-block">Contact Developer</li>
                             </a>
-                            
-                            
+
+
                         </ul>
                         <form class="ml-auto search-form d-none d-md-block" action="#">
                             <div class="form-group">
@@ -154,10 +154,10 @@
                                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
                                     <div class="dropdown-header text-center">
                                         <img class="img-md rounded-circle" src="~/images/face8.jpg" alt="Profile image">
-                                        <p class="mb-1 mt-3 font-weight-semibold">Allen Moreno</p>
-                                        <p class="font-weight-light text-muted mb-0">allenmoreno@gmail.com</p>
+                                        <p class="mb-1 mt-3 font-weight-semibold">Hard-coded name</p>
+                                        <p class="font-weight-light text-muted mb-0">Hardcoded name</p>
                                     </div>
-                                    <a class="dropdown-item" asp-controller="Home" asp-action="ManageProfile">My Profile<i class="dropdown-item-icon ti-dashboard"></i></a>
+                                    <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index">My Profile<i class="dropdown-item-icon ti-dashboard"></i></a>
                                     <a class="dropdown-item">
 
 
@@ -177,7 +177,6 @@
                     </div>
                 </nav>
                 <!-- partial -->
-
                 <!-- page-body-wrapper begins -->
                 <div class="container-fluid page-body-wrapper">
                     <!-- partial:partials/_sidebar.html -->
@@ -190,8 +189,8 @@
                                         <div class="dot-indicator bg-success"></div>
                                     </div>
                                     <div class="text-wrapper">
-                                        <p class="profile-name">@User.FindFirst("FirstName").Value</p>
-                                        <p class="designation">@User.Identity.AuthenticationType</p>
+                                        <p class="profile-name">Hard-coded</p>
+                                        <p class="designation">Hardcocded</p>
                                     </div>
                                 </a>
                             </li>
@@ -202,7 +201,7 @@
                                     <span class="menu-title">Dashboard</span>
                                 </a>
                             </li>
-                           
+
                             <partial name="_SidebarPartial" />
                         </ul>
                     </nav>
@@ -214,15 +213,13 @@
                             @RenderBody()
                         </div>
                         <!-- content-wrapper ends -->
-
-
                         <!-- partial:partials/_footer.html -->
                         @*<footer class="footer">
-                            <div class="container-fluid clearfix">
-                                <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © bootstrapdash.com 2020</span>
-                                <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"> Free <a href="https://www.bootstrapdash.com/bootstrap-admin-template/" target="_blank">Bootstrap admin template </a>from Bootstrapdash.com</span>
-                            </div>
-                        </footer>*@
+                                <div class="container-fluid clearfix">
+                                    <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © bootstrapdash.com 2020</span>
+                                    <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"> Free <a href="https://www.bootstrapdash.com/bootstrap-admin-template/" target="_blank">Bootstrap admin template </a>from Bootstrapdash.com</span>
+                                </div>
+                            </footer>*@
                         <!-- partial:partials/_footer.html -->
 
 
@@ -244,6 +241,7 @@
 
     </div>
 
+    <script src="~/js/data-table.js"></script>
     <script src="~/js/Chart.min.js"></script>
     <script src="~/js/site.js"></script>
     <script src="~/js/vendor.bundle.base.js"></script>
@@ -255,9 +253,43 @@
     <script src="~/js/off-canvas.js"></script>
     <script src="~/js/todolist.js"></script>
 
+    <script>
+        $(document).ready(function () {
+            $('#tickets_table_id').DataTable({
+                "paging": true,
+                "lengthChange": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
 
+        $(document).ready(function () {
+            $('#users_on_project_table').DataTable({
+                "paging": true,
+                "lengthChange": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
 
-
+        $(document).ready(function () {
+            $('#tickets_in_projects').DataTable({
+                "paging": true,
+                "lengthChange": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+    </script>
 
     @await RenderSectionAsync("Scripts", required: false)
 

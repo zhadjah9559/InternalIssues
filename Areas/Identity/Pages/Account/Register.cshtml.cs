@@ -83,8 +83,6 @@ namespace InternalIssues.Areas.Identity.Pages.Account
         {
             ViewData["CompanyId"] = new SelectList(_context.Companies, "Id", "Name");
 
-
-
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }

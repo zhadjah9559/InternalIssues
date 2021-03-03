@@ -1,0 +1,16 @@
+﻿@{
+    ViewData["Title"] = "AssignTickets";
+}
+
+<h1>AssignTickets</h1>
+
+<form action="AssignTickets" method="post">
+    <div class="row">
+        <div class="col">
+            <select name="TicketId" asp-items="ViewBag.TicketIds"></select>
+        </div>
+        <div class="col">
+            <select name="DeveloperId" asp-items="ViewBag.DeveloperIds"></select>
+        </div>
+    </div>
+</form>

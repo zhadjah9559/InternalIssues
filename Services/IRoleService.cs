@@ -28,6 +28,10 @@ namespace InternalIssues.Services
         Task<IEnumerable<AppUser>> UsersNotInRoleAsync(string roleName);
 
         //Return a collection of all roles that aren't created for demonstration purposes
-        public IEnumerable<IdentityRole> NonDemoRoles();
+        IEnumerable<IdentityRole> NonDemoRoles();
+
+        Task<string> NonDemoUserRoles(string userId);
+
+
     }
 }

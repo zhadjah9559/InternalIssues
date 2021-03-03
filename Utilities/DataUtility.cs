@@ -99,7 +99,7 @@ namespace InternalIssues.Utilities
             //Seed Demo Admin User
             var defaultUser = new AppUser
             {
-                UserName = "jonndoe@coderfoundry.com",
+                UserName = "johndoe@coderfoundry.com",
                 Email = "johndoe@coderfoundry.com",
                 FirstName = "john",
                 LastName = "doe",

@@ -1,4 +1,5 @@
 ﻿using InternalIssues.Data;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,12 +16,32 @@ namespace InternalIssues.Services
             _context = context;
         }
 
-        public Task<int> GetNumberOfAllTickets()
+        public async Task<int> GetNumberOfAllTickets()
         {
-            //Write linq statement that will get the number of all tickets across all 3 projects
-            int numOfTickets;
+            //Get number of all tickets across all projects
+            return await _context.Tickets.CountAsync();
+        }
 
-            return numOfTickets;
+        public async Task<int> GetNumberOfAllAssignedTickets()
+        {
+            return await _context.Tickets.Where(t => t.DeveloperUserId != null).CountAsync();
+        }
+
+
+        public async Task<int> GetNumberOfAllUnAssignedTickets()
+        {
+            return await _context.Tickets.Where(t => t.DeveloperUserId == null).CountAsync();
+        }
+
+        //Get all the tickets whose TicketStatus = Open 
+        public async Task<int> GetNumberOfAllOpenTickets()
+        {
+            return await _context.Tickets.Where(ts => ts.TicketStatus.Name == "Open").CountAsync();
+        }
+
+        public async Task<int> GetNumberOfAllClosedTickets()
+        {
+            return await _context.Tickets.Where(ts => ts.TicketStatus.Name == "Closed").CountAsync();
         }
     }
 }

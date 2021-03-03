@@ -8,10 +8,7 @@
 
 <h1>@ViewData["Title"]</h1>
 
-
 <body>
-
-
     <div class="container-scroller">
         <div class="container-fluid page-body-wrapper full-page-wrapper">
             <div class="content-wrapper d-flex align-items-center auth auth-bg-1 theme-one">
@@ -84,12 +81,22 @@
         <!-- page-body-wrapper ends -->
     </div>
     <!-- container-scroller -->
-
-
-
-
-
 </body>
+
+
+<div class="offset-1 col-10">
+
+    @*Appsettings.json holds the login info for all the demo users utilizing `key:value` notation*@
+    <h4>Demo Logins</h4>
+    <form method="post">
+        <button type="submit" name="demoEmail" value="DemoAdminEmail" class="btn btn-primary">Demo Admin</button>
+        <button type="submit" name="demoEmail" value="DemoPMEmail" class="btn btn-primary">Demo PM</button>
+        <button type="submit" name="demoEmail" value="DemoDevEmail" class="btn btn-primary">Demo Dev</button>
+        <button type="submit" name="demoEmail" value="DemoSubEmail" class="btn btn-primary">Demo Sub</button>
+    </form>
+
+</div>
+
 
 
 @section Scripts {

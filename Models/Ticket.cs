@@ -19,7 +19,6 @@ namespace InternalIssues.Models
 
         public int Id { get; set; }    //PK
        
-
         [Required]
         [StringLength(50)]
         public string Title{ get; set; }

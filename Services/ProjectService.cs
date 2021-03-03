@@ -109,8 +109,15 @@ namespace InternalIssues.Services
             //Create a container for the records
             var output = new List<Project>();
 
-            //Go through all the projects
-            foreach( var project in await _context.Projects.ToListAsync() )
+            //Go through all the projects and include your priority, status, and type
+            foreach( var project in await _context.Projects
+                .Include(t => t.Tickets)
+                .ThenInclude(t=> t.TicketPriority)
+                .Include(t => t.Tickets)
+                .ThenInclude(t => t.TicketStatus)
+                .Include(t => t.Tickets)
+                .ThenInclude(t => t.TicketType)
+                .ToListAsync())
             {
                 //If the user is on the project add it to the list
                 if( await IsUserOnProjectAsync(userId, project.Id) )
@@ -210,8 +217,6 @@ namespace InternalIssues.Services
             }
 
             return output;
-        }
-
-     
+        }     
     }
 }

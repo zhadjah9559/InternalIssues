@@ -1,5 +1,6 @@
 ﻿using InternalIssues.Data;
 using InternalIssues.Models;
+using InternalIssues.Models.ViewModels;
 using InternalIssues.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -31,9 +32,28 @@ namespace InternalIssues.Controllers
         [Authorize]
         public IActionResult Index()
         {
-            var model = _context.Tickets.Include(t => t.TicketStatus)
-                                        .Include(t => t.TicketPriority)
+            DashboardViewModel model = new DashboardViewModel();
+
+            var tickets = _context.Tickets.Include(t => t.TicketPriority)
+                                        .Include(t => t.TicketStatus)
+                                        .Include(t => t.TicketType)
                                         .ToList();
+
+            var projects = _context.Projects.Include(p => p.Company)
+                                            .Include(p => p.Members)
+                                            .Include(p => p.Members)
+
+
+
+                                            .ToList();
+
+
+
+
+
+            //Set all the info from the tickets and projects variables into the model. Send them to the view
+            model.Projects = projects;
+            model.Tickets = tickets;
 
             return View(model);
         }

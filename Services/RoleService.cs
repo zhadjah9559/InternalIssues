@@ -58,6 +58,22 @@ namespace InternalIssues.Services
             return output;
         }
 
+        //Tells the dev what real role the user occupies
+        public async Task<string> NonDemoUserRoles(string userId)
+        {
+            var user = await _context.Users.FindAsync(userId);
+            var roles = await _userManager.GetRolesAsync(user);
+            var output = "";
+            foreach (var role in roles)
+            {
+                if ( role != Roles.DemoUser.ToString() )
+                {
+                    output = role;
+                }                
+            }
+            return output;
+        }
+
         //Remove a specified user from a role, return bool if successful
         public async Task<bool> RemoveUserFromRoleAsync(AppUser user, string roleName)
         {

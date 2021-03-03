@@ -38,7 +38,7 @@ namespace InternalIssues
             services.AddDatabaseDeveloperPageExceptionFilter();
                         
             services.AddIdentity<AppUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
-                    .AddClaimsPrincipalFactory<AppUserClaimsPrincipalFactory>()
+                    //.AddClaimsPrincipalFactory<AppUserClaimsPrincipalFactory>()
                     .AddDefaultUI()
                     .AddDefaultTokenProviders()
                     .AddEntityFrameworkStores<ApplicationDbContext>();
@@ -50,6 +50,7 @@ namespace InternalIssues
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<IProjectService, ProjectService>();
             services.AddScoped<IHistoryService, HistoryService>();
+            services.AddScoped<ITicketService, TicketService>();
 
 
             //Register The email service

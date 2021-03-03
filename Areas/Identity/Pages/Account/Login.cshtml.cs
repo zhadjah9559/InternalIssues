@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Configuration;
 
 namespace InternalIssues.Areas.Identity.Pages.Account
 {
@@ -19,14 +20,20 @@ namespace InternalIssues.Areas.Identity.Pages.Account
     public class LoginModel : PageModel
     {
         private readonly UserManager<AppUser> _userManager;
+        private readonly IConfiguration _configuration;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
 
+        //overload ctor for injection
         public LoginModel(SignInManager<AppUser> signInManager, 
             ILogger<LoginModel> logger,
-            UserManager<AppUser> userManager)
+            UserManager<AppUser> userManager,
+            IConfiguration configuration)
         {
             _userManager = userManager;
+
+            //IConfguartion has been injected in order to compare the 
+            _configuration = configuration;
             _signInManager = signInManager;
             _logger = logger;
         }
@@ -55,7 +62,7 @@ namespace InternalIssues.Areas.Identity.Pages.Account
             public bool RememberMe { get; set; }
         }
 
-        public async Task OnGetAsync(string returnUrl = null)
+        public async Task OnGetAsync(string returnUrl = null, string demoEmail = null)
         {
             if (!string.IsNullOrEmpty(ErrorMessage))
             {
@@ -72,9 +79,35 @@ namespace InternalIssues.Areas.Identity.Pages.Account
             ReturnUrl = returnUrl;
         }
 
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+        public async Task<IActionResult> OnPostAsync(string returnUrl = null, string demoEmail = null)
         {
             returnUrl ??= Url.Content("~/");
+
+            //This code only triggers on a demo login
+            if(!string.IsNullOrWhiteSpace(demoEmail))
+            {
+                //access the appsettings.json to find the key passed in
+                var email = _configuration[demoEmail];
+
+                //access the appsetings.json to find my shared password for demo users
+                var password = _configuration["DemoPassword"];
+
+                //sign in using the values pulled form appsettings.json
+                var result = await _signInManager.PasswordSignInAsync(email, password, false, lockoutOnFailure: false);
+
+                //standard redirect after login - you may need to update this based on your route configuration
+                if (result.Succeeded)
+                {
+                    _logger.LogInformation("User logged in.");
+                    return RedirectToAction("Index","Home");
+                }
+                //fail case to return to the Login screen 
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    return Page();
+                }
+            }
 
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         

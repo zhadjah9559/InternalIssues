@@ -6,184 +6,172 @@
         @{var user = await UserManager.GetUserAsync(User);
             if (await UserManager.IsInRoleAsync(user, "Admin"))
             {
-                //Tickets drop down
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="collapse" href="#tickets" aria-expanded="false" aria-controls="ui-basic">
-                    <i class="menu-icon typcn typcn-coffee"></i>
-                    <span class="menu-title">Tickets</span>
-                    <i class="menu-arrow"></i>
-                </a>
-                <div class="collapse" id="tickets">
-                    <ul class="nav flex-column sub-menu">
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Tickets" asp-action="Index">All Tickets</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="pages/ui-features/dropdowns.html">Submit</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
+                    //Tickets drop down
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="collapse" href="#tickets" aria-expanded="false" aria-controls="ui-basic">
+                        <i class="menu-icon typcn typcn-coffee"></i>
+                        <span class="menu-title">Tickets</span>
+                        <i class="menu-arrow"></i>
+                    </a>
+                    <div class="collapse" id="tickets">
+                        <ul class="nav flex-column sub-menu">
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Tickets" asp-action="Index">All Tickets</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Tickets" asp-action="Create">Submit</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
 
                 //Projects drop down
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="collapse" href="#Projects" aria-expanded="false" aria-controls="ui-basic">
-                    <i class="menu-icon typcn typcn-coffee"></i>
-                    <span class="menu-title">Projects</span>
-                    <i class="menu-arrow"></i>
-                </a>
-                <div class="collapse" id="Projects">
-                    <ul class="nav flex-column sub-menu">
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Projects" asp-action="Create">New Project</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Projects" asp-action="ManageUsersOnProject">Manage Users on Project</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Projects" asp-action="Index">All Projects</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="collapse" href="#Projects" aria-expanded="false" aria-controls="ui-basic">
+                        <i class="menu-icon typcn typcn-coffee"></i>
+                        <span class="menu-title">Projects</span>
+                        <i class="menu-arrow"></i>
+                    </a>
+                    <div class="collapse" id="Projects">
+                        <ul class="nav flex-column sub-menu">
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Projects" asp-action="Create">New Project</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Projects" asp-action="ManageUsersOnProject">Manage Users on Project</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Projects" asp-action="Index">All Projects</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
 
                 //User Roles drop down
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="collapse" href="#User-Roles" aria-expanded="false" aria-controls="ui-basic">
-                    <i class="menu-icon typcn typcn-coffee"></i>
-                    <span class="menu-title">User Roles</span>
-                    <i class="menu-arrow"></i>
-                </a>
-                <div class="collapse" id="User-Roles">
-                    <ul class="nav flex-column sub-menu">
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Home" asp-action="ManageRoles">Manage Roles</a>
-                        </li>                        
-                    </ul>
-                </div>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Reports</a>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="collapse" href="#User-Roles" aria-expanded="false" aria-controls="ui-basic">
+                        <i class="menu-icon typcn typcn-coffee"></i>
+                        <span class="menu-title">User Roles</span>
+                        <i class="menu-arrow"></i>
+                    </a>
+                    <div class="collapse" id="User-Roles">
+                        <ul class="nav flex-column sub-menu">
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Home" asp-action="ManageRoles">Manage Roles</a>
+                            </li>                        
+                        </ul>
+                    </div>
+                </li>
             }
             else if (User.IsInRole("ProjectManager"))
             {
                 //Tickets drop down
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="collapse" href="#Tickets" aria-expanded="false" aria-controls="ui-basic">
-                    <i class="menu-icon typcn typcn-coffee"></i>
-                    <span class="menu-title">Tickets</span>
-                    <i class="menu-arrow"></i>
-                </a>
-                <div class="collapse" id="Tickets">
-                    <ul class="nav flex-column sub-menu">
-                        <li class="nav-item">
-                            <a class="nav-link" href="pages/ui-features/buttons.html">Buttons</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="pages/ui-features/dropdowns.html">Dropdowns</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="pages/ui-features/typography.html">Typography</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="collapse" href="#Tickets" aria-expanded="false" aria-controls="ui-basic">
+                        <i class="menu-icon typcn typcn-coffee"></i>
+                        <span class="menu-title">Tickets</span>
+                        <i class="menu-arrow"></i>
+                    </a>
+                    <div class="collapse" id="Tickets">
+                        <ul class="nav flex-column sub-menu">
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Tickets" asp-action="MyTickets">My Tickets</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Tickets" asp-action="AllTickets">All Tickets</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
 
                 //Tickets drop down
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="collapse" href="#Projects" aria-expanded="false" aria-controls="ui-basic">
-                    <i class="menu-icon typcn typcn-coffee"></i>
-                    <span class="menu-title">Projects</span>
-                    <i class="menu-arrow"></i>
-                </a>
-                <div class="collapse" id="Projects">
-                    <ul class="nav flex-column sub-menu">
-                        <li class="nav-item">
-                            <a class="nav-link" href="pages/ui-features/buttons.html">Buttons</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="pages/ui-features/dropdowns.html">Dropdowns</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="pages/ui-features/typography.html">Typography</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="collapse" href="#Projects" aria-expanded="false" aria-controls="ui-basic">
+                        <i class="menu-icon typcn typcn-coffee"></i>
+                        <span class="menu-title">Projects</span>
+                        <i class="menu-arrow"></i>
+                    </a>
+                    <div class="collapse" id="Projects">
+                        <ul class="nav flex-column sub-menu">
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="" asp-action="">Assign Users</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="" asp-action="">Remove Users</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Projects" asp-action="ManageUsersOnProject">View Projects</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
             }
             else if (User.IsInRole("Developer"))
             {
                 //Tickets drop down
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="collapse" href="#Tickets" aria-expanded="false" aria-controls="ui-basic">
-                    <i class="menu-icon typcn typcn-coffee"></i>
-                    <span class="menu-title">Tickets</span>
-                    <i class="menu-arrow"></i>
-                </a>
-                <div class="collapse" id="Tickets">
-                    <ul class="nav flex-column sub-menu">
-                        <li class="nav-item">
-                            <a class="nav-link" href="pages/ui-features/buttons.html">Buttons</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="pages/ui-features/dropdowns.html">Dropdowns</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="pages/ui-features/typography.html">Typography</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="collapse" href="#Tickets" aria-expanded="false" aria-controls="ui-basic">
+                        <i class="menu-icon typcn typcn-coffee"></i>
+                        <span class="menu-title">Tickets</span>
+                        <i class="menu-arrow"></i>
+                    </a>
+                    <div class="collapse" id="Tickets">
+                        <ul class="nav flex-column sub-menu">
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Tickets" asp-action="AllTickets">All Tickets</a>
+                            </li>
+                            
+                        </ul>
+                    </div>
+                </li>
 
                 //Projects drop down
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="collapse" href="#Projects" aria-expanded="false" aria-controls="ui-basic">
-                    <i class="menu-icon typcn typcn-coffee"></i>
-                    <span class="menu-title">Projects</span>
-                    <i class="menu-arrow"></i>
-                </a>
-                <div class="collapse" id="Projects">
-                    <ul class="nav flex-column sub-menu">
-                        <li class="nav-item">
-                            <a class="nav-link" href="pages/ui-features/buttons.html">Buttons</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="pages/ui-features/dropdowns.html">Dropdowns</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="pages/ui-features/typography.html">Typography</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="collapse" href="#Projects" aria-expanded="false" aria-controls="ui-basic">
+                        <i class="menu-icon typcn typcn-coffee"></i>
+                        <span class="menu-title">Projects</span>
+                        <i class="menu-arrow"></i>
+                    </a>
+                    <div class="collapse" id="Projects">
+                        <ul class="nav flex-column sub-menu">
+                            <li class="nav-item">
+                                <a class="nav-link" href="pages/ui-features/buttons.html">Buttons</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="pages/ui-features/dropdowns.html">Dropdowns</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="pages/ui-features/typography.html">Typography</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
 
                 //User Roles drop down
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="collapse" href="#User-Roles" aria-expanded="false" aria-controls="ui-basic">
-                    <i class="menu-icon typcn typcn-coffee"></i>
-                    <span class="menu-title">User Roles</span>
-                    <i class="menu-arrow"></i>
-                </a>
-                <div class="collapse" id="User-Roles">
-                    <ul class="nav flex-column sub-menu">
-                        <li class="nav-item">
-                            <a class="nav-link" href="pages/ui-features/buttons.html">Buttons</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="pages/ui-features/dropdowns.html">Dropdowns</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="pages/ui-features/typography.html">Typography</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="collapse" href="#User-Roles" aria-expanded="false" aria-controls="ui-basic">
+                        <i class="menu-icon typcn typcn-coffee"></i>
+                        <span class="menu-title">User Roles</span>
+                        <i class="menu-arrow"></i>
+                    </a>
+                    <div class="collapse" id="User-Roles">
+                        <ul class="nav flex-column sub-menu">
+                            <li class="nav-item">
+                                <a class="nav-link" href="pages/ui-features/buttons.html">Buttons</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="pages/ui-features/dropdowns.html">Dropdowns</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="pages/ui-features/typography.html">Typography</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
 
-            <li class="nav-item">
-                <a class="nav-link" href="pages/ui-features/dropdowns.html">Reports</a>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="pages/ui-features/dropdowns.html">Reports</a>
+                </li>
             }
             else if (User.IsInRole("Submitter"))
             {
@@ -197,13 +185,13 @@
                 <div class="collapse" id="Tickets">
                     <ul class="nav flex-column sub-menu">
                         <li class="nav-item">
-                            <a class="nav-link" href="pages/ui-features/buttons.html">Buttons</a>
+                            <a class="nav-link" asp-controller="Tickets" asp-action="Create">Submit Ticket</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="pages/ui-features/dropdowns.html">Dropdowns</a>
+                            <a class="nav-link" asp-controller="Tickets" asp-action="MyTickets">My Tickets</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="pages/ui-features/typography.html">Typography</a>
+                            <a class="nav-link" asp-controller="Tickets" asp-action="AllTickets">All Tickets</a>
                         </li>
                     </ul>
                 </div>
