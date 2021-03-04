@@ -929,8 +929,9 @@
   border-radius: 0px; }
   .card .card-title {
     color: #212529; }
-  .card .card-header {
-    background: #fff; }
+    .card .card-header {
+        background: #3755F1;
+    }
 
 .page-body-wrapper {
   min-height: calc(100vh - 63px);

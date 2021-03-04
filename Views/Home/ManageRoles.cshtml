@@ -15,58 +15,84 @@
     the admin will chose which roles they want to change. The form
     info with who the admin has chosen will be sent to home
     controller, and the HttpPost ManageRoles() action*@
-<div class="card">
-    <div class="card-body bg-info">
-        <h4 class="card-title">Role Management</h4>
-        <form asp-action="ManageRoles" method="post">
-            <div class="row">
-                <div class="col">
-                    <select name="userIds" multiple="multiple" asp-items="@users"></select>
-                </div>
-                <div class="col">
-                    <select name="roleName" asp-items="@roles"></select>
-                </div>
-            </div>
 
-            <div class="row">
-                <div class="col-4" offset-4>
+<div class=" offset-1 col-md-6 mb-3">
 
-                    <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+    <div class="card-header bg-linkedin">
+        <h4>Role Management</h4>
+    </div>
 
+    <div class="card">
+
+
+
+        <div class="card-body ">
+            <form asp-action="ManageRoles" method="post">
+                <div class="row">
+                    <div class="col">
+                        <select name="userIds" multiple="multiple" asp-items="@users"></select>
+                    </div>
+                    <div class="col">
+                        <select name="roleName" asp-items="@roles"></select>
+                    </div>
                 </div>
-            </div>
-        </form>
+
+                <div class="row">
+                    <div class="col-4" offset-4>
+
+                        <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
+    
 
-@*Putting all users inside bootstrap template card*@
-<div class="card-body" style="background-color: white">
-    <h4 class="card-title">User Roles</h4>
-    <table class="table" >
-        <thead>
-            <tr>
-                <th>FirstName</th>
-                <th>LastName</th>
-                <th>Role</th>
-            </tr>
-        </thead>
-        <tbody>
+<div class="offset-1 col-md-6">
+    
+    <div class="card-header bg-linkedin">
+        <h4>User Roles</h4>
+    </div>
 
-            @foreach (var user in userManager.Users.ToList())
-            {
+
+    <div class="card-body" style="background-color: white">
+        <table class="table table-bordered" id="manage_roles_tables">
+            <thead>
                 <tr>
-                    <td>@user.FirstName</td>
-                    <td>@user.LastName</td>
-                    <td>
-                        @foreach (var role in (await roleService.ListUserRolesAsync(user)))
-                        {
-                            <p>@role</p>
-                        }
-                    </td>
+                    <th>FirstName</th>
+                    <th>LastName</th>
+                    <th>Role</th>
                 </tr>
-            }
+            </thead>
+            <tbody>
 
-        </tbody>
-    </table>
+                @foreach (var user in userManager.Users.ToList())
+                {
+                    <tr>
+                        <td>@user.FirstName</td>
+                        <td>@user.LastName</td>
+                        <td>
+                            @foreach (var role in (await roleService.ListUserRolesAsync(user)))
+                            {
+                                <p>@role</p>
+                            }
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+
 </div>
-@*Putting all users inside bootstrap template card*@
+
+
+
+
+
+    @section Scripts {
+        <script src="//cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+
+    }

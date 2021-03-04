@@ -241,6 +241,7 @@
 
     </div>
 
+    <script src="//cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
     <script src="~/js/data-table.js"></script>
     <script src="~/js/Chart.min.js"></script>
     <script src="~/js/site.js"></script>
@@ -289,6 +290,31 @@
                 "responsive": true,
             });
         });
+
+        $(document).ready(function () {
+            $('#tickets_index').DataTable({
+                "paging": true,
+                "lengthChange": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+
+        $(document).ready(function () {
+            $('#manage_roles_tables').DataTable({
+                "paging": true,
+                "lengthChange": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+
     </script>
 
     @await RenderSectionAsync("Scripts", required: false)
