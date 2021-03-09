@@ -1,5 +1,7 @@
 ﻿@using InternalIssues.Services
+@using Microsoft.AspNetCore.Identity
 @inject ITicketService ticketService
+@inject UserManager<AppUser> userManager
 @using InternalIssues.Data
 @model InternalIssues.Models.ViewModels.DashboardViewModel
 
@@ -57,53 +59,6 @@
 
 </div>
 
-@*Tickets Table*@
-<div class="row">
-    <div class="col-lg-12 grid-margin stretch-card">
-        <div class="card">
-            <div class="card-body">
-                <h4 class="card-title">Tickets table</h4>
-                <table class="table table-bordered" id="tickets_table_id">
-                    <thead>
-                        <tr>
-                            <th> Developer </th>
-                            <th> Category </th>
-                            <th> User </th>
-                            <th> Priority </th>
-                            <th> Project </th>
-                            <th> Title </th>
-                            <th> Project </th>
-                            <th> Attachment </th>
-
-
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-
-
-                            <td> 1 </td>
-                            <td> Herman Beck </td>
-                            <td>
-                                <div class="progress">
-                                    <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </td>
-                            <td> $ 77.99 </td>
-                            <td> May 15, 2015 </td>
-                            <td> May 15, 2015 </td>
-                            <td> May 15, 2015 </td>
-                            <td> May 15, 2015 </td>
-                        </tr>
-                        
-                       
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
-
 @*Pie chart and Tickets by Category*@
 <div class="row">
     <div class="col-lg-4 grid-margin stretch-card">
@@ -124,20 +79,6 @@
     <div class="col-lg-4 grid-margin stretch-card">
         <div class="card">
             <div class="p-4 border-bottom bg-light">
-                <h4 class="card-title mb-0">Tickets By Status</h4>
-            </div>
-            <div class="card-body">
-
-                @*insert chart*@
-                <canvas id="statusChart" width="400" height="400"></canvas>
-
-            </div>
-        </div>
-    </div>
-
-    <div class="col-lg-4 grid-margin stretch-card">
-        <div class="card">
-            <div class="p-4 border-bottom bg-light">
                 <h4 class="card-title mb-0">Tickets By Type</h4>
             </div>
             <div class="card-body">
@@ -149,36 +90,87 @@
         </div>
     </div>
 
+    <div class="col-lg-4 grid-margin stretch-card">
+        <div class="card">
+            <div class="p-4 border-bottom bg-light">
+                <h4 class="card-title mb-0">Tickets By Status</h4>
+            </div>
+            <div class="card-body">
+
+                @*insert chart*@
+                <canvas id="statusChart" width="400" height="400"></canvas>
+
+            </div>
+        </div>
+    </div>
+
 
 </div>
 
-@*Users and Tickets History*@
+@*Users on Project and Tickets History*@
 <div class="row">
-
-    <div class="col-lg-8 stretch-card">
+    <div class="col-lg-12 stretch-card">
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Users on Project</h4>
                 <table class="table table-bordered" id="users_on_project_table">
                     <thead>
                         <tr>
+                            <th> Project Name</th>
                             <th> FullName </th>
                             <th> Role </th>
                             <th> Email </th>
+
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="table-info">
-                            <td> 1 </td>
-                            <td> Herman Beck </td>
-                            <td> Photoshop </td>
-                        </tr>
+
+                        @foreach (var item in Model.Projects)
+                        {
+                            <tr class="table-info">
+                                <td> @item.Name </td>
+
+
+                                <td>
+                                    @foreach (var user in item.Members)
+                                    {
+                                        @user.FullName
+                                        <br />
+                                    }
+                                </td>
+
+
+                                <td>
+
+                                    @foreach (var user in item.Members)
+                                    {
+                                        @foreach (var role in (await userManager.GetRolesAsync(user)))
+                                        {
+                                            @role
+                                            <br />
+                                        }
+                                    }
+
+                                </td>
+
+
+                                <td>
+                                    @foreach (var user in item.Members)
+                                    {
+                                        @user.Email
+                                        <br />
+                                    }
+                                </td>
+                            </tr>
+                        }
+
+
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-    <div class="col-md-4 grid-margin stretch-card">
+    @*<div class="col-md-4 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
                 <div class="d-flex justify-content-between pb-3">
@@ -209,49 +201,32 @@
                 <a class="d-block mt-3" href="#">Show all</a>
             </div>
         </div>
-    </div>
-
+    </div>*@
 </div>
-
-
-
-
-
-<canvas id="myChart" width="400" height="400"></canvas>
-<canvas id="myChart2" width="400" height="400"></canvas>
-
 
 <div class="row">
     <div class="card">
         <div class="card-body">
-            <h4 class="card-title">Ticket in project</h4>
+            <h4 class="card-title">Tickets in project</h4>
             <table class="table table-bordered" id="tickets_in_projects">
                 <thead>
                     <tr>
                         <th>Name</th>
-                        <th>Member Count</th>
-                        <th>Description</th>
-                        <th>Tickets Count</th>
-                        <th> Description</th>
+                        <th>Tickets</th>
+                        <th>Members on Project</th>
+                        <th>Company</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-
-                        @foreach (var ticket in Model.Projects)
-                        {
+                    @foreach (var ticket in Model.Projects)
+                    {
+                        <tr>
                             <td> @ticket.Name </td>
-                            <td> @foreach (var user in ticket.Members)
-                                  {
-                                    
-                                  }
-                            </td>
-                            <td> @ticket.Description </td>
                             <td> @ticket.Tickets.Count </td>
+                            <td>@ticket.Members.Count</td>
                             <td> @ticket.Company.Name </td>
-                        }
-
-                    </tr>
+                        </tr>
+                    }
                 </tbody>
             </table>
         </div>
@@ -259,16 +234,15 @@
 </div>
 
 
-
-
 @*Charts*@
 @section Scripts{
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
     <script>
-        //Step 1 generate the URL that we will call to get JSON
-        var URL1 = '@Url.Action("PriorityChart", "Charts")';   //represents the endpoint (controller + action) that we want to hit
-        var URL2 = '@Url.Action("TypeChart", "Charts")';
-        var URL3 = '@Url.Action("StatusChart", "Charts")';
+        //Step 1 generate the URL that we will call to get JSON,
+        //These are endpoints we want to hit
+        var URL1 = '@Url.Action("PriorityChart", "Charts")';    //1st chart
+        var URL2 = '@Url.Action("TypeChart", "Charts")';        //2nd chart
+        var URL3 = '@Url.Action("StatusChart", "Charts")';      //3rd chart
 
         //Step2 - start the structure for our AJAX Calls
         $.post(URL1).then(function (response) {
@@ -294,6 +268,26 @@
         $.post(URL2).then(function (response) {
 
             //Get the context/canvas for the chart
+            var ctx = document.getElementById('typeChart').getContext('2d');
+            //Use the JSON response to create the data property of the chart
+            var polarChartData = {
+                labels: response.labels,
+                datasets: [{
+                    label: 'Tickets By Type',
+                    data: response.data,
+                    backgroundColor: response.backgroundColors,
+                    hoverOffset: 4
+                }]
+            };
+            var polarChart = new Chart(ctx, {
+                type: 'pie',
+                data: polarChartData
+            })
+        });
+
+        $.post(URL3).then(function (response) {
+
+            //Get the context/canvas for the chart
             var ctx = document.getElementById('statusChart').getContext('2d');
             //Use the JSON response to create the data property of the chart
             var polarChartData = {
@@ -311,30 +305,12 @@
             })
         });
 
-        $.post(URL3).then(function (response) {
-
-            //Get the context/canvas for the chart
-            var ctx = document.getElementById('typeChart').getContext('2d');
-            //Use the JSON response to create the data property of the chart
-            var polarChartData = {
-                labels: response.labels,
-                datasets: [{
-                    label: 'Tickets By Type',
-                    data: response.data,
-                    backgroundColor: response.backgroundColors,
-                    hoverOffset: 4
-                }]
-            };
-            var polarChart = new Chart(ctx, {
-                type: 'pie',
-                data: polarChartData
-            })
-        });
+        
     </script>
     <script src="//cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
 
 
-  
+
 
 
 }

@@ -10,6 +10,8 @@ using InternalIssues.Models;
 using Microsoft.AspNetCore.Identity;
 using InternalIssues.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using InternalIssues.Data.Enums;
 
 namespace InternalIssues.Controllers
 {
@@ -19,6 +21,7 @@ namespace InternalIssues.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly IHistoryService _historyService;
         private readonly IProjectService _projectService;
+        private readonly HttpContextAccessor _httpContextAccessor;
 
         public TicketsController(ApplicationDbContext context,
                                  UserManager<AppUser> userManager,
@@ -47,7 +50,7 @@ namespace InternalIssues.Controllers
         {
             var model = new List<Ticket>();
             //test if admin
-            if ( User.IsInRole("Admin") )
+            if (User.IsInRole("Admin"))
             {
                 model = await _context.Tickets
                 .Include(t => t.DeveloperUser)
@@ -56,7 +59,7 @@ namespace InternalIssues.Controllers
                 .Include(t => t.TicketPriority)
                 .Include(t => t.TicketStatus).ToListAsync();
             }
-            else if( User.IsInRole("ProjectManager") ) // pm
+            else if (User.IsInRole("ProjectManager")) // pm
             {
                 //get the user id
                 var userId = _userManager.GetUserId(User);
@@ -68,13 +71,13 @@ namespace InternalIssues.Controllers
                 //look at each project and each ticket
                 model = projects.SelectMany(p => p.Tickets).ToList();
             }
-            else if(User.IsInRole("Developer"))  //dev
+            else if (User.IsInRole("Developer"))  //dev
             {
                 //check to see if any of the tickets inside the DB has the same UserId 
                 var userId = _userManager.GetUserId(User);
                 model = _context.Tickets.Where(t => t.DeveloperUserId == userId).ToList();
             }
-            else 
+            else
             {
                 var userId = _userManager.GetUserId(User);
                 model = _context.Tickets.Where(t => t.OwnerUserId == userId).ToList();
@@ -82,11 +85,17 @@ namespace InternalIssues.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> AssignTickets(int projectId)
+        public async Task<IActionResult> AssignTickets(int? projectId)
         {
-            ViewData["TicketsIds"] = new SelectList(_context.Tickets.Where(t => t.ProjectId == projectId), "Id", "Title");
-            ViewData["DeveloperIds"] = new SelectList(await _projectService.DevelopersOnProjectAsync(projectId), "Id", "FullName");
+            if(projectId == null)
+            {
+                ViewData["TicketsIds"] = new SelectList(_context.Tickets, "Id", "Title");
+                ViewData["DeveloperIds"] = new SelectList(await _userManager.GetUsersInRoleAsync(Roles.Developer.ToString()), "Id", "FullName");
+                return View();
+            }
 
+            ViewData["TicketsIds"] = new SelectList(_context.Tickets.Where(t => t.ProjectId == projectId), "Id", "Title");
+            ViewData["DeveloperIds"] = new SelectList(await _projectService.DevelopersOnProjectAsync((int)projectId), "Id", "FullName");
             return View();
         }
 
@@ -96,9 +105,30 @@ namespace InternalIssues.Controllers
         {
             var ticket = await _context.Tickets.FindAsync(ticketId);
             ticket.DeveloperUserId = developerId;
+            ticket.TicketStatus.Name = "Assigned";
             await _context.SaveChangesAsync();
 
             return RedirectToAction("Details", new { id = ticketId });
+        }
+
+        public async Task<IActionResult> GoToTicket(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var notification = await _context.Notification.FindAsync((int)id);
+
+            if (notification == null)
+            {
+                return NotFound();
+            }
+
+            notification.Viewed = true;
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Details", new { id = notification.TicketId });
         }
 
         public async Task<IActionResult> Details(int? id)
@@ -130,20 +160,25 @@ namespace InternalIssues.Controllers
         public IActionResult Create()
         {
             //Dropdown Lists
-            ViewData["DeveloperUserId"] = new SelectList(_context.Users, "Id", "Id");
-            ViewData["OwnerUserId"] = new SelectList(_context.Users, "Id", "Id");
+            ViewData["DeveloperUserId"] = new SelectList(_context.Users, "Id", "FullName");
+            ViewData["OwnerUserId"] = new SelectList(_context.Users, "Id", "FullName");
             ViewData["ProjectId"] = new SelectList(_context.Set<Project>(), "Id", "Name");
-            ViewData["TicketPriorityId"] = new SelectList(_context.TicketPriorities, "Id", "Id");
-            ViewData["TicketStatusId"] = new SelectList(_context.TicketStatuses, "Id", "Id");
+
+            ViewData["TicketPriorityId"] = new SelectList(_context.TicketPriorities, "Id", "Name");
+            ViewData["TicketStatusId"] = new SelectList(_context.TicketStatuses, "Id", "Name");
             return View();
         }
-                
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Title,Description,Created,Updated,ProjectId,TicketTypeId,TicketPriorityId,TicketStatusId,OwnerUserId,DeveloperUserId")] Ticket ticket)
         {
             if (ModelState.IsValid)
             {
+                ticket.Created = DateTime.Now;
+                var StatusId = _context.TicketStatuses.FirstOrDefault(t => t.Name == "Unassigned").Id;
+                ticket.TicketStatusId = StatusId;
+
                 _context.Add(ticket);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -151,7 +186,7 @@ namespace InternalIssues.Controllers
             ViewData["DeveloperUserId"] = new SelectList(_context.Users, "Id", "Id", ticket.DeveloperUserId);
             ViewData["OwnerUserId"] = new SelectList(_context.Users, "Id", "Id", ticket.OwnerUserId);
             ViewData["ProjectId"] = new SelectList(_context.Set<Project>(), "Id", "Name", ticket.ProjectId);
-            ViewData["TicketPriorityId"] = new SelectList(_context.TicketPriorities, "Id", "Id", ticket.TicketPriorityId);
+            ViewData["TicketPriorityId"] = new SelectList(_context.TicketPriorities, "Id", "Name", ticket.TicketPriorityId);
             ViewData["TicketStatusId"] = new SelectList(_context.TicketStatuses, "Id", "Id", ticket.TicketStatusId);
             return View(ticket);
         }
@@ -159,7 +194,7 @@ namespace InternalIssues.Controllers
         //Overloaded Create action
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("TicketId,CommentBody")] TicketComment ticketComment)
+        public async Task<IActionResult> CreateComment([Bind("TicketId,CommentBody")] TicketComment ticketComment)
         {
             if (ModelState.IsValid)
             {
@@ -195,7 +230,7 @@ namespace InternalIssues.Controllers
             ViewData["TicketStatusId"] = new SelectList(_context.TicketStatuses, "Id", "Id", ticket.TicketStatusId);
             return View(ticket);
         }
-                
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,Created,Updated,ProjectId,TicketTypeId,TicketPriorityId,TicketStatusId,OwnerUserId,DeveloperUserId")] Ticket ticket)
@@ -299,6 +334,29 @@ namespace InternalIssues.Controllers
         private bool TicketExists(int id)
         {
             return _context.Tickets.Any(e => e.Id == id);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task MarkAsRead(int id)
+        {
+            var notification = _context.Notification.Find(id);
+            notification.Viewed = true;
+            await _context.SaveChangesAsync();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task MarkAllAsRead()
+        {
+            var userId = _userManager.GetUserId(_httpContextAccessor.HttpContext.User);
+            var notifications = await _context.Notification.Where(n => n.RecipientId == userId).ToListAsync();
+
+            foreach (var notification in notifications)
+            {
+                notification.Viewed = true;
+            }
+            await _context.SaveChangesAsync();
         }
     }
 }

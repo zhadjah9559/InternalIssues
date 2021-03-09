@@ -14,14 +14,19 @@
                         <i class="menu-arrow"></i>
                     </a>
                     <div class="collapse" id="tickets">
-                        <ul class="nav flex-column sub-menu">
-                            <li class="nav-item">
-                                <a class="nav-link" asp-controller="Tickets" asp-action="Index">All Tickets</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-controller="Tickets" asp-action="Create">Submit</a>
-                            </li>
-                        </ul>
+                                <ul class="nav flex-column sub-menu">
+                                    <li class="nav-item">
+                                        <a class="nav-link" asp-controller="Tickets" asp-action="Index">All Tickets</a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link" asp-controller="Tickets" asp-action="AssignTickets">Assign Tickets</a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link" asp-controller="Tickets" asp-action="Create">Submit Ticket</a>
+                                    </li>
+                                </ul>
                     </div>
                 </li>
 

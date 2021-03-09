@@ -50,15 +50,13 @@ namespace InternalIssues.Controllers
         // GET: Notifications/Create
         public IActionResult Create()
         {
-            ViewData["RecipientId"] = new SelectList(_context.Users, "Id", "Id");
+            ViewData["RecipientId"] = new SelectList(_context.Users, "Id", "FullName");
             ViewData["SenderId"] = new SelectList(_context.Users, "Id", "Id");
             ViewData["TicketId"] = new SelectList(_context.Tickets, "Id", "Description");
             return View();
         }
 
-        // POST: Notifications/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,TicketId,Description,Created,RecipientId,SenderId,Viewed")] Notification notification)

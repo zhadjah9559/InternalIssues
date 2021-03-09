@@ -42,14 +42,7 @@ namespace InternalIssues.Controllers
             var projects = _context.Projects.Include(p => p.Company)
                                             .Include(p => p.Members)
                                             .Include(p => p.Members)
-
-
-
                                             .ToList();
-
-
-
-
 
             //Set all the info from the tickets and projects variables into the model. Send them to the view
             model.Projects = projects;
