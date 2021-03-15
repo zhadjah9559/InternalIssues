@@ -24,12 +24,7 @@
     <link href="~/css/style_1.css" rel="stylesheet" />
     <link href="~/css/custom.css" rel="stylesheet" />
     <link rel="shortcut icon" href="~/images/favicon.png" />
-    @*<link href="~/scss/_auth.scss" rel="stylesheet" />
-        <link href="~/scss/_dashboard.scss" rel="stylesheet" />*@
-    @*<link href="~/scss/_icons.scss" rel="stylesheet" />
-        <link href="~/scss/_core.scss" rel="stylesheet" />
-        <link href="~/scss/_reboot.scss" rel="stylesheet" />
-        <link href="~/scss/_sidebar.scss" rel="stylesheet" />*@
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     @*BOOTSTRAP TEMPLATE ADDITIONS*@
@@ -43,6 +38,9 @@
         @*If user is authenticated, display admin template, else only display the RenderBody()*@
         @if (User.Identity.IsAuthenticated)
         {
+            //Get the Identity of the currently logged in user
+            var user = await UserManager.FindByEmailAsync(User.Identity.Name);
+            
             <!-- container-scroller -->
             <div class="container-scroller">
 
@@ -62,7 +60,6 @@
                                 <li class="nav-item font-weight-semibold d-none d-lg-block">Contact Developer</li>
                             </a>
 
-
                         </ul>
                         <form class="ml-auto search-form d-none d-md-block" action="#">
                             <div class="form-group">
@@ -70,9 +67,8 @@
                             </div>
                         </form>
 
-
-
                         <ul class="navbar-nav ml-auto">
+
                             <li class="nav-item dropdown">
                                 <a class="nav-link" data-toggle="dropdown" href="#">
                                     <i class="mdi mdi-bell-outline"></i>
@@ -86,52 +82,9 @@
                                         </a>
                                         <a asp-controller="Tickets" asp-action="GoToTicket" asp-route-id="@notification.Id"></a>
                                     }
-
                                 </a>
                             </li>
-                        </ul>
 
-
-                        <ul class="navbar-nav ml-auto">
-                            <li class="nav-item dropdown">
-                                <a class="nav-link count-indicator" id="notificationDropdown" href="#" data-toggle="dropdown">
-                                    <i class="mdi mdi-email-outline"></i>
-                                    <span class="count bg-success">3</span>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list pb-0" aria-labelledby="notificationDropdown">
-                                    <a class="dropdown-item py-3 border-bottom">
-                                        <p class="mb-0 font-weight-medium float-left">You have 4 new notifications </p>
-                                        <span class="badge badge-pill badge-primary float-right">View all</span>
-                                    </a>
-                                    <a class="dropdown-item preview-item py-3">
-                                        <div class="preview-thumbnail">
-                                            <i class="mdi mdi-alert m-auto text-primary"></i>
-                                        </div>
-                                        <div class="preview-item-content">
-                                            <h6 class="preview-subject font-weight-normal text-dark mb-1">Application Error</h6>
-                                            <p class="font-weight-light small-text mb-0"> Just now </p>
-                                        </div>
-                                    </a>
-                                    <a class="dropdown-item preview-item py-3">
-                                        <div class="preview-thumbnail">
-                                            <i class="mdi mdi-settings m-auto text-primary"></i>
-                                        </div>
-                                        <div class="preview-item-content">
-                                            <h6 class="preview-subject font-weight-normal text-dark mb-1">Settings</h6>
-                                            <p class="font-weight-light small-text mb-0"> Private message </p>
-                                        </div>
-                                    </a>
-                                    <a class="dropdown-item preview-item py-3">
-                                        <div class="preview-thumbnail">
-                                            <i class="mdi mdi-airballoon m-auto text-primary"></i>
-                                        </div>
-                                        <div class="preview-item-content">
-                                            <h6 class="preview-subject font-weight-normal text-dark mb-1">New user registration</h6>
-                                            <p class="font-weight-light small-text mb-0"> 2 days ago </p>
-                                        </div>
-                                    </a>
-                                </div>
-                            </li>
                             <li class="nav-item dropdown d-none d-xl-inline-block user-dropdown">
                                 <a class="nav-link dropdown-toggle" id="UserDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
                                     <img class="img-xs rounded-circle" src="~/images/face8.jpg" alt="Profile image">
@@ -139,8 +92,8 @@
                                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
                                     <div class="dropdown-header text-center">
                                         <img class="img-md rounded-circle" src="~/images/face8.jpg" alt="Profile image">
-                                        <p class="mb-1 mt-3 font-weight-semibold">Hard-coded name</p>
-                                        <p class="font-weight-light text-muted mb-0">Hardcoded name</p>
+                                        <p class="mb-1 mt-3 font-weight-semibold">@user.FullName</p>
+                                        <p class="font-weight-light text-muted mb-0">   </p>
                                     </div>
                                     <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index">My Profile<i class="dropdown-item-icon ti-dashboard"></i></a>
                                     <a class="dropdown-item">
@@ -151,7 +104,6 @@
                                 </div>
                             </li>
                         </ul>
-
 
                         <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
                             <span class="mdi mdi-menu"></span>
@@ -171,8 +123,7 @@
                                         <div class="dot-indicator bg-success"></div>
                                     </div>
                                     <div class="text-wrapper">
-                                        <p class="profile-name">Hard-coded</p>
-                                        <p class="designation">Hardcocded</p>
+                                        <p class="profile-name">@user.FullName</p>
                                     </div>
                                 </a>
                             </li>
@@ -192,31 +143,11 @@
                     <div class="main-panel">
                         <!--content-wrapper begins-->
                         <div class="content-wrapper">
-                            @*<h1>@((await notificationService.GetUnreadNotificationsAsync(User)).Count())</h1>
-                            @foreach(var notification in (await notificationService.GetUnreadNotificationsAsync(User)))
-                            {
-                                <a href="javascript:void(0)" class="dropdown-item">
-                                     <p>@notification.Description</p>
-                                     <p>@notification.Sender.FullName</p>
-                                     <span class="float-right text-muted text-sm">@notification.Created.ToString("MM/dd HH:mm")</span>
-                                </a>
-                                <a asp-controller="Tickets" asp-action="GoToTicket" asp-route-id="@notification.Id"></a>
-                            }*@
+                           
                             @RenderBody()
                         </div>
                         <!-- content-wrapper ends -->
-                        <!-- partial:partials/_footer.html -->
-                        @*<footer class="footer">
-                                <div class="container-fluid clearfix">
-                                    <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © bootstrapdash.com 2020</span>
-                                    <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"> Free <a href="https://www.bootstrapdash.com/bootstrap-admin-template/" target="_blank">Bootstrap admin template </a>from Bootstrapdash.com</span>
-                                </div>
-                            </footer>*@
-                        <!-- partial:partials/_footer.html -->
-
-
-
-
+                      
 
                     </div>
                     <!-- main-panel ends -->

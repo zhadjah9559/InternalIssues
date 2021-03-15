@@ -1,5 +1,25 @@
-﻿@{
+﻿<head>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+
+    @*BOOTSTRAP TEMPLATE ADDITIONS*@
+    <link href="~/css/site.css" rel="stylesheet" />
+    <link href="~/css/vendor.bundle.base.css" rel="stylesheet" />
+    <link href="~/css/materialdesignicons.min.css" rel="stylesheet" />
+    <link href="~/css/flag-icon.min.css" rel="stylesheet" />
+    <link href="~/css/typicons.css" rel="stylesheet" />
+    <link href="~/css/style.css" rel="stylesheet" />
+    <link href="~/css/style_1.css" rel="stylesheet" />
+    <link href="~/css/custom.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="~/images/favicon.png" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+
+@{
     ViewData["Title"] = "LandingPage";
+    Layout = null;
 }
 
 <body data-new-gr-c-s-check-loaded="14.997.0" data-gr-ext-installed="">
@@ -15,7 +35,7 @@
                             <span class="navbar-toggler-icon ti ti-menu text-white"></span>
                         </button>
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                            
+
                         </div>
                     </div>
                 </div>
@@ -24,133 +44,44 @@
                 <div class="col-md-8 mx-auto">
                     <div class="row">
                         <div class="col-lg-7">
-                            <h1 class="mr-2 text-white"> All you need for creating dashboard UI and complex web interfaces. </h1>
-                            <h3 class="font-weight-light text-white"> Star Admin Template </h3>
+                            <h1 class="mr-2 text-white">
+                                Internal Issues is an online multi-tenant issue tracking software application that is functional and effective for both large and small businesses.
+                            </h1>
+                            <p class="text-white">
+                                This application was built using C# and .NET5. The architecture utilizes both the MVC and MVVM design patterns. The front end is a Bootstrap 4 template.
+
+                                The Database was built code first with Entity Framework Core maintaining integrity. It is also stored within Heroku with Postgres SQL and managed with PGAdmin.
+                            </p>
                             <div class="mt-5">
-                                <button class="btn btn-primary btn-lg mr-2">VIEW ALL DEMO</button>
-                                <button class="btn btn-danger btn-lg ml-2">BUY NOW</button>
+                                <a asp-area="Identity" asp-page="/Account/Login">
+                                    <button class="btn btn-danger btn-lg mr-2">VISIT APP</button>
+
+                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+
+
+
+
         </div>
-        
-        <div class="container-fluid bottom-section">
-            <div class="row">
-                <div class="col-md-8 mx-auto">
-                    <h3>Top Features</h3>
-                    <div class="feature-list">
-                        <div class="row feature-list-row">
-                            <div class="col-lg-3 feature-list-item">
-                                <i class="ti-briefcase"></i>
-                                <h4>Lots of widgtes</h4>
-                                <p class="feature-description">Wide range of Widgets are available with this Package.</p>
-                            </div>
-                            <div class="col-lg-3 feature-list-item">
-                                <i class="ti-target"></i>
-                                <h4>Bootstrap 4</h4>
-                                <p class="feature-description">It is made with bootstrap 4 framework</p>
-                            </div>
-                            <div class="col-lg-3 feature-list-item">
-                                <i class="ti-mobile"></i>
-                                <h4>Fully Responsive</h4>
-                                <p class="feature-description">Fully responsive accross all devices</p>
-                            </div>
-                            <div class="col-lg-3 feature-list-item">
-                                <i class="ti-face-smile"></i>
-                                <h4>3000+ icon fonts</h4>
-                                <p class="feature-description">Lots of icon fonts are included in the package</p>
-                            </div>
-                        </div>
-                        <div class="row feature-list-row">
-                            <div class="col-lg-3 feature-list-item">
-                                <i class="ti-layout-sidebar-left"></i>
-                                <h4>Dark and light sidebars</h4>
-                                <p class="feature-description">Included Dark and Light Sidebar for getting desired look and feel.</p>
-                            </div>
-                            <div class="col-lg-3 feature-list-item">
-                                <i class="ti-blackboard"></i>
-                                <h4>Easy to customize</h4>
-                                <p class="feature-description">Customization will be easy as we understand your pain.</p>
-                            </div>
-                            <div class="col-lg-3 feature-list-item">
-                                <i class="ti-paint-bucket"></i>
-                                <h4>6 theme colors</h4>
-                                <p class="feature-description">We have included 6 pre-defined color schemes with this admin.</p>
-                            </div>
-                            <div class="col-lg-3 feature-list-item">
-                                <i class="ti-receipt"></i>
-                                <h4>Detailed documentation</h4>
-                                <p class="feature-description">We have made detailed documentation, for ease of use.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <footer class="container-fluid footer">
-            <div class="row pb-5 text-white footer-top">
-                <div class="col-md-8 mx-auto">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <img src="~/images/Transparent.png" class="brand-logo" alt="logo">
-                            <div class="d-flex flex-row footer-social-icons">
-                                <i class="ti-facebook bg-facebook"></i>
-                                <i class="ti-google bg-google"></i>
-                                <i class="ti-dribbble bg-dribbble"></i>
-                                <i class="ti-twitter-alt bg-twitter"></i>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="row contact-details">
-                                <div class="col-12 d-flex mb-3">
-                                    <i class="ti-mobile mr-4"></i>
-                                    <h6 class="font-weight-normal">(0000) 1234 5678</h6>
-                                </div>
-                                <div class="col-12 d-flex mb-3">
-                                    <i class="ti-settings mr-4"></i>
-                                    <h6 class="font-weight-normal">support@staradmin.org</h6>
-                                </div>
-                            </div>
-                            <ul class="nav mt-3">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">Demos</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">Features</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">Support</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">Documentation</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="col-md-3">
-                            <h6>Newsletter</h6>
-                            <p>To get the latest news from us please subscribe your email.</p>
-                            <div class="mt-3">
-                                <input type="email" class="form-control" placeholder="Enter your email">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row py-4 footer-bottom">
-                <div class="col-md-8 mx-auto">
-                    <div class="container-fluid clearfix">
-                        <span class="d-block text-center text-sm-left d-sm-inline-block">Copyright © 2018 <a href="#">bootstrapdash</a>. All rights reserved.</span>
-                        <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">
-                            Hand-crafted &amp; made with <i class="mdi mdi-heart text-danger"></i>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </footer>
     </div>
-
-
 </body>
+
+
+<script src="//cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+<script src="~/js/data-table.js"></script>
+<script src="~/js/Chart.min.js"></script>
+<script src="~/js/site.js"></script>
+<script src="~/js/vendor.bundle.base.js"></script>
+<script src="~/js/off-canvas.js"></script>
+<script src="~/js/hoverable-collapse.js"></script>
+<script src="~/js/misc.js"></script>
+<script src="~/js/settings.js"></script>
+<script src="~/js/dashboard.js"></script>
+<script src="~/js/off-canvas.js"></script>
+<script src="~/js/todolist.js"></script>
 

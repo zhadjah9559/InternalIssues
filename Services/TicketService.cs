@@ -24,24 +24,24 @@ namespace InternalIssues.Services
 
         public async Task<int> GetNumberOfAllAssignedTickets()
         {
-            return await _context.Tickets.Where(t => !string.IsNullOrWhiteSpace(t.DeveloperUserId)  ).CountAsync();
+            return await _context.Tickets.Where(t => !string.IsNullOrWhiteSpace(t.DeveloperUserId) ).CountAsync();
         }
 
 
         public async Task<int> GetNumberOfAllUnAssignedTickets()
         {
-            return await _context.Tickets.Where(t => string.IsNullOrWhiteSpace(t.DeveloperUserId)).CountAsync();
+            return await _context.Tickets.Where(t => string.IsNullOrWhiteSpace(t.DeveloperUserId) ).CountAsync();
         }
 
         //Get all the tickets whose TicketStatus = Open 
         public async Task<int> GetNumberOfAllOpenTickets()
         {
-            return await _context.Tickets.Where(ts => ts.TicketStatus.Name == "Open").CountAsync();
+            return await _context.Tickets.Where(t => t.TicketStatus.Name == "Open").CountAsync();
         }
 
         public async Task<int> GetNumberOfAllClosedTickets()
         {
-            return await _context.Tickets.Where(tt => tt.TicketType.Name == "Closed").CountAsync();
+            return await _context.Tickets.Where(t => t.TicketType.Name == "Closed").CountAsync();
         }
     }
 }

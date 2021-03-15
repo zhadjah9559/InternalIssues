@@ -11,6 +11,7 @@ namespace InternalIssues.Models
 {
     public class Project
     {
+        //overloaded ctor
         public Project()
         {
             Members = new HashSet<AppUser>();

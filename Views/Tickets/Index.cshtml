@@ -11,10 +11,9 @@
         <div class="card col-lg-12">
             <div class="card-header">
                 <p>
-                    <a asp-action="Create">Create New</a>
+                    All Tickets
                 </p>
             </div>
-
             <div class="card-body">
                 <div class="row">
                     <table class="table table-bordered" id="tickets_index">
@@ -78,7 +77,6 @@
                                     <td>
                                         <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                                         <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                                     </td>
                                 </tr>
                             }
@@ -86,7 +84,6 @@
                     </table>
                 </div>
             </div>
-
         </div>
     </div>
 </div>

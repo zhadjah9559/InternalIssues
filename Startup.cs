@@ -47,18 +47,23 @@ namespace InternalIssues
             services.AddControllersWithViews();
             services.AddRazorPages();
 
-            //Registering all the services added
+
+            //A new instance is provided everytime a request is made, however
+            //an instance is reused when inside the same exact scope
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<IProjectService, ProjectService>();
             services.AddScoped<IHistoryService, HistoryService>();
             services.AddScoped<ITicketService, TicketService>();
+
+            //Adds a NEW instance each and every single time this service is called
             services.AddTransient<IImageService, ImageService>();
             services.AddTransient<INotificationService, NotificationService>();
 
-            //Register The email service
+            //Setting up a configuration from what is inside appsettngs.json
+            //Mapping a configuration entry to a class
             services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
             services.AddScoped<IEmailSender, EmailService>();
-
+            services.AddScoped<IInviteService, InviteService>();
 
             services.AddMvc();
         }
@@ -89,7 +94,7 @@ namespace InternalIssues
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=LandingPage}/{id?}");
                 endpoints.MapRazorPages();
             });
         }

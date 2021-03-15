@@ -26,7 +26,7 @@ namespace InternalIssues.Utilities
             //default connection string will come from appSettings like usual
             var connectionString = configuration.GetConnectionString("DefaultConnection");
 
-            //it will automatically overwritten if we are running on heroku
+            //it will automatically be overwritten if we are running on heroku
             var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
             return string.IsNullOrEmpty(databaseUrl) ? connectionString : BuildConnectionString(databaseUrl);
         }
@@ -648,7 +648,6 @@ namespace InternalIssues.Utilities
             }
         }
 
-        //UNCOMPLETED
         public static async Task SeedDefaultProjectsAsync(ApplicationDbContext context)
         {
             try

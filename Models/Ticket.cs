@@ -9,6 +9,7 @@ namespace InternalIssues.Models
 {
     public class Ticket
     {
+        //overloaded ctor
         public Ticket()
         {
             Comments = new HashSet<TicketComment>();

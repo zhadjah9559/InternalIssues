@@ -18044,11 +18044,10 @@ div.tagsinput {
 
 /* Landing */
 .landing-page .navbar {
-  padding: 2rem 0;
   box-shadow: none;
   -webkit-box-shadow: none; }
   .landing-page .navbar .navbar-brand img {
-    width: 145px; }
+    width: 200px; }
   @media (max-width: 991px) {
     .landing-page .navbar .navbar-collapse {
       display: block; } }
@@ -18085,8 +18084,7 @@ div.tagsinput {
         margin-top: 1rem;
         max-width: 100%; } }
   .landing-page .top-banner .top-banner-content {
-    padding-top: 80px;
-    padding-bottom: 120px; }
+    padding-bottom: 410px; }
 
 .landing-page .middle-section {
   padding-top: 120px;

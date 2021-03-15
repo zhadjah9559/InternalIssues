@@ -21,17 +21,40 @@ namespace InternalIssues.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly IHistoryService _historyService;
         private readonly IProjectService _projectService;
+        private readonly SignInManager<AppUser> _signInManager;
         private readonly HttpContextAccessor _httpContextAccessor;
 
         public TicketsController(ApplicationDbContext context,
                                  UserManager<AppUser> userManager,
                                  IHistoryService historyService,
-                                 IProjectService projectService)
+                                 IProjectService projectService,
+                                 SignInManager<AppUser> signInManager)
         {
             _context = context;
             _userManager = userManager;
             _historyService = historyService;
             _projectService = projectService;
+            _signInManager = signInManager;
+        }
+
+        public async Task<IActionResult> AcceptInvite(string userId, string code)
+        {
+            var realGuid = Guid.Parse(code);
+            var invite = _context.Invite.FirstOrDefault(i => i.CompanyToken == realGuid && i.InviteeId == userId);
+            if (invite is null)
+            {
+                return NotFound();
+            }
+            if (invite.IsValid)
+            {
+                invite.IsValid = false;
+                var user = await _context.Users.FindAsync(userId);
+                await _signInManager.SignInAsync(user, isPersistent: false);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Create");
+            }
+
+            return NotFound();
         }
 
         public async Task<IActionResult> Index()

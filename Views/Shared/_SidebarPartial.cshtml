@@ -2,8 +2,9 @@
 @inject SignInManager<AppUser> SignInManager
 @inject UserManager<AppUser> UserManager
 
-
+        @*Get the currently logged in user*@
         @{var user = await UserManager.GetUserAsync(User);
+
             if (await UserManager.IsInRoleAsync(user, "Admin"))
             {
                     //Tickets drop down
@@ -89,7 +90,7 @@
                     </div>
                 </li>
 
-                //Tickets drop down
+                //Projects drop down
                 <li class="nav-item">
                     <a class="nav-link" data-toggle="collapse" href="#Projects" aria-expanded="false" aria-controls="ui-basic">
                         <i class="menu-icon typcn typcn-coffee"></i>
@@ -173,10 +174,7 @@
                         </ul>
                     </div>
                 </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="pages/ui-features/dropdowns.html">Reports</a>
-                </li>
+                               
             }
             else if (User.IsInRole("Submitter"))
             {

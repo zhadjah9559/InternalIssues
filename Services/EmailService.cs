@@ -36,7 +36,7 @@ namespace InternalIssues.Services
             using var smtp = new SmtpClient();
 
             //test
-            //smtp.CheckCertificateRevocation = false;
+            smtp.CheckCertificateRevocation = false;
 
 
             smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.StartTls);

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace InternalIssues.Extensions
 {
-    public class CustomAttribute
+    public class CustomAttributes
     {
     }
 }

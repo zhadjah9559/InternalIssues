@@ -64,7 +64,7 @@
     <div class="col-lg-4 grid-margin stretch-card">
         <div class="card">
             <div class="p-4 pr-5 border-bottom bg-light d-flex justify-content-between">
-                <h4 class="card-title mb-0">Ticket Priority Overview</h4>
+                <h4 class="card-title mb-0" style="color:black">Ticket Priority Overview</h4>
                 <id id="pie-chart-legend" class="mr-4"></id>
             </div>
             <div class="card-body d-flex">
@@ -79,7 +79,7 @@
     <div class="col-lg-4 grid-margin stretch-card">
         <div class="card">
             <div class="p-4 border-bottom bg-light">
-                <h4 class="card-title mb-0">Tickets By Type</h4>
+                <h4 class="card-title mb-0" style="color:black">Tickets By Type</h4>
             </div>
             <div class="card-body">
 
@@ -93,7 +93,7 @@
     <div class="col-lg-4 grid-margin stretch-card">
         <div class="card">
             <div class="p-4 border-bottom bg-light">
-                <h4 class="card-title mb-0">Tickets By Status</h4>
+                <h4 class="card-title mb-0" style="color:black">Tickets By Status</h4>
             </div>
             <div class="card-body">
 
@@ -107,12 +107,12 @@
 
 </div>
 
-@*Users on Project and Tickets History*@
+@*Users on Project*@
 <div class="row">
     <div class="col-lg-12 stretch-card">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Users on Project</h4>
+                <h4 class="card-title" style="color:black;">Users on Project</h4>
                 <table class="table table-bordered" id="users_on_project_table">
                     <thead>
                         <tr>
@@ -124,12 +124,10 @@
                         </tr>
                     </thead>
                     <tbody>
-
                         @foreach (var item in Model.Projects)
                         {
                             <tr class="table-info">
                                 <td> @item.Name </td>
-
 
                                 <td>
                                     @foreach (var user in item.Members)
@@ -139,9 +137,7 @@
                                     }
                                 </td>
 
-
                                 <td>
-
                                     @foreach (var user in item.Members)
                                     {
                                         @foreach (var role in (await userManager.GetRolesAsync(user)))
@@ -150,9 +146,7 @@
                                             <br />
                                         }
                                     }
-
                                 </td>
-
 
                                 <td>
                                     @foreach (var user in item.Members)
@@ -163,51 +157,18 @@
                                 </td>
                             </tr>
                         }
-
-
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-    @*<div class="col-md-4 grid-margin stretch-card">
-        <div class="card">
-            <div class="card-body">
-                <div class="d-flex justify-content-between pb-3">
-                    <h4 class="card-title mb-0">Ticket History</h4>
-                </div>
-                <ul class="timeline">
-                    <li class="timeline-item">
-                        <p class="timeline-content"><a href="#">Ben Tossell</a> assign you a task</p>
-                        <p class="event-time">Just now</p>
-                    </li>
-                    <li class="timeline-item">
-                        <p class="timeline-content"><a href="#">Ben Tossell</a> assign you a task</p>
-                        <p class="event-time">Just now</p>
-                    </li>
-                    <li class="timeline-item">
-                        <p class="timeline-content"><a href="#">Ben Tossell</a> assign you a task</p>
-                        <p class="event-time">Just now</p>
-                    </li>
-                    <li class="timeline-item">
-                        <p class="timeline-content"><a href="#">Ben Tossell</a> assign you a task</p>
-                        <p class="event-time">Just now</p>
-                    </li>
-                    <li class="timeline-item">
-                        <p class="timeline-content"><a href="#">Ben Tossell</a> assign you a task</p>
-                        <p class="event-time">Just now</p>
-                    </li>
-                </ul>
-                <a class="d-block mt-3" href="#">Show all</a>
-            </div>
-        </div>
-    </div>*@
+   
 </div>
 
 <div class="row">
-    <div class="card">
+    <div class="card ml-2 mt-4">
         <div class="card-body">
-            <h4 class="card-title">Tickets in project</h4>
+            <h4 class="card-title" style="color:black;">Tickets in project</h4>
             <table class="table table-bordered" id="tickets_in_projects">
                 <thead>
                     <tr>

@@ -928,9 +928,10 @@
   border: solid 1px #dde4eb;
   border-radius: 0px; }
   .card .card-title {
-    color: #212529; }
+    color: white; }
     .card .card-header {
-        background: #3755F1;
+        background: -webkit-gradient(linear, left, right, from(#5768f3), to(#1c45ef));
+        ;
     }
 
 .page-body-wrapper {
