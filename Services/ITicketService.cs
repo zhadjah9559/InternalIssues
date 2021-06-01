@@ -17,6 +17,5 @@ namespace InternalIssues.Services
         public Task<int> GetNumberOfAllOpenTickets();
 
         public Task<int> GetNumberOfAllClosedTickets();
-
     }
 }

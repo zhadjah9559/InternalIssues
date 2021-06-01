@@ -19,6 +19,9 @@ using InternalIssues.Utilities;
 using InternalIssues.Services;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Http;
+using FluentValidation.AspNetCore;
+using FluentValidation;
+using InternalIssues.Models.ViewModels;
 
 namespace InternalIssues
 {
@@ -39,7 +42,6 @@ namespace InternalIssues
             services.AddDatabaseDeveloperPageExceptionFilter();
                         
             services.AddIdentity<AppUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
-                    //.AddClaimsPrincipalFactory<AppUserClaimsPrincipalFactory>()
                     .AddDefaultUI()
                     .AddDefaultTokenProviders()
                     .AddEntityFrameworkStores<ApplicationDbContext>();
@@ -66,6 +68,17 @@ namespace InternalIssues
             services.AddScoped<IInviteService, InviteService>();
 
             services.AddMvc();
+
+            //FluentValidation configuration
+            services.AddMvc().AddFluentValidation();
+            services.AddTransient<IValidator<Ticket>, TicketValidator>();
+            services.AddTransient<IValidator<TicketComment>, TicketCommentValidator>();
+            services.AddTransient<IValidator<Project>, ProjectValidator>();
+            services.AddTransient<IValidator<AppUser>, AppUserValidator>();
+            services.AddTransient<IValidator<InviteViewModel>, InviteViewModelValidator>();
+
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

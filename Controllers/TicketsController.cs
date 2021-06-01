@@ -66,7 +66,8 @@ namespace InternalIssues.Controllers
                 .Include(t => t.TicketPriority)
                 .Include(t => t.TicketStatus)
                 .Include(t => t.TicketType);
-            return View(await applicationDbContext.ToListAsync());
+            var data = await applicationDbContext.ToListAsync();
+            return View(data);
         }
 
         public async Task<IActionResult> MyTickets()
@@ -198,7 +199,7 @@ namespace InternalIssues.Controllers
         {
             if (ModelState.IsValid)
             {
-                ticket.Created = DateTime.Now;
+                ticket.Created = DateTimeOffset.Now;
                 var StatusId = _context.TicketStatuses.FirstOrDefault(t => t.Name == "Unassigned").Id;
                 ticket.TicketStatusId = StatusId;
 
@@ -296,7 +297,6 @@ namespace InternalIssues.Controllers
 
                     //Call History Service
                     await _historyService.AddHistoryAsync(oldTicket, newTicket, userId);
-
                 }
 
 

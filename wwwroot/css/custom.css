@@ -5,3 +5,21 @@
 #dashboard-cards-black-text {
     color: black;
 }
+
+.dataTables_length{
+    float: right;
+}
+
+.dataTables_filter{
+    float: left;
+}
+
+.paginate_button {
+    padding: 5px;
+    border: 1px solid black;
+    margin: 0 5px;
+    cursor: pointer;
+    background: #2196F3;
+    border-color: #black;
+    color: white;
+}

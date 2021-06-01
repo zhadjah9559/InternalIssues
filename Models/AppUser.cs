@@ -1,4 +1,5 @@
-﻿using InternalIssues.Extensions;
+﻿using FluentValidation;
+using InternalIssues.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using System;
@@ -14,21 +15,17 @@ namespace InternalIssues.Models
     {
         public int CompanyId { get; set; }      //FK
 
-        [Required]
-        [StringLength(50)]
+        //[Required]
+        //[StringLength(50)]
         public string FirstName { get; set; }
 
-
-        [Required]
-        [StringLength(50)]
+        //[Required]
+        //[StringLength(50)]
         public string LastName { get; set; }
-
 
         [Display(Name = "Full Name")]
         [NotMapped]
         public string FullName { get { return $"{FirstName} {LastName}"; } }
-
-
 
         [Display(Name = "Select Image")]
         [NotMapped]
@@ -40,8 +37,19 @@ namespace InternalIssues.Models
         public byte[] AvatarFileData { get; set; }
 
         //Navigational properties
-        public virtual Company Company { get; set; }
+        public Company Company { get; set; }
+        public ICollection<Project> Projects { get; set; }
+    }
 
-        public virtual ICollection<Project> Projects { get; set; }
+    public class AppUserValidator : AbstractValidator<AppUser>
+    {
+        public AppUserValidator()
+        {
+            RuleFor(AppUser => AppUser.FirstName).NotNull();
+            RuleFor(AppUser => AppUser.FirstName).Length<AppUser>(3,50);
+
+            RuleFor(AppUser => AppUser.LastName).NotNull();
+            RuleFor(AppUser => AppUser.LastName).Length<AppUser>(3,50);
+        }
     }
 }

@@ -3,6 +3,7 @@ using InternalIssues.Models;
 using InternalIssues.Models.ViewModels;
 using InternalIssues.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -19,19 +20,25 @@ namespace InternalIssues.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IRoleService _roleService;
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<AppUser> _appUser;
+
 
         public HomeController(ILogger<HomeController> logger, 
                               IRoleService roleService,
-                              ApplicationDbContext context )
+                              ApplicationDbContext context,
+                              UserManager<AppUser> appUser)
         {
             _logger = logger;
             _roleService = roleService;
             _context = context;
+            _appUser = appUser;
         }
 
         [Authorize]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+
+
             DashboardViewModel model = new DashboardViewModel();
 
             var tickets = _context.Tickets.Include(t => t.TicketPriority)

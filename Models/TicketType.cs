@@ -8,7 +8,7 @@ namespace InternalIssues.Models
     public class TicketType
     {
         public int Id { get; set; }          //PK
-        public int TicketId { get; set; }    //FK
+        //public int TicketId { get; set; }    //FK
 
         public string Name { get; set; }
     }

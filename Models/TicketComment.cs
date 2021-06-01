@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FluentValidation;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -12,8 +13,8 @@ namespace InternalIssues.Models
         public int TicketId { get; set; }        //FK
         public string AppUserId { get; set; }    //FK      
 
-        [Required]
-        [StringLength(300, ErrorMessage = "The {0} must be at least {2} and no more than {1} characters long.", MinimumLength = 5)]
+        //[Required]
+        //[StringLength(300, ErrorMessage = "The {0} must be at least {2} and no more than {1} characters long.", MinimumLength = 5)]
         public string CommentBody { get; set; }
 
         [Display(Name = "Created Date")]
@@ -25,6 +26,23 @@ namespace InternalIssues.Models
         //Navigational properties
         public virtual Ticket Ticket { get; set; }
         public virtual AppUser AppUser { get; set; }
-
     }
+
+    public class TicketCommentValidator : AbstractValidator<TicketComment>
+    {
+        public TicketCommentValidator()
+        {
+            RuleFor(ticketcomment => ticketcomment.CommentBody).NotNull();
+            RuleFor(ticketcomment => ticketcomment.CommentBody).Length<TicketComment>(5,300);
+        }
+    }
+
+
+
+
 }
+
+
+
+
+

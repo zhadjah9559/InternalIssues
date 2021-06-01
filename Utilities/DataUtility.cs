@@ -70,7 +70,7 @@ namespace InternalIssues.Utilities
             //Service 3: Instance of UserManager
             var userManagerSvc = svcProvider.GetRequiredService<UserManager<AppUser>>();
 
-            //TsTEP 1: This is the programmatic equivalent to update-Database
+            //STEP 1: This is the programmatic equivalent to update-Database
             await dbContextSvc.Database.MigrateAsync();
 
             await SeedRolesAsync(userManagerSvc, roleManagerSvc);

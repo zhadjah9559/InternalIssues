@@ -62,7 +62,7 @@ namespace InternalIssues.Controllers
         // GET: Projects
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Projects.Include(p => p.Company);
+            var applicationDbContext = _context.Projects.Include(p => p.Company);                                                       
             return View(await applicationDbContext.ToListAsync());
         }
 

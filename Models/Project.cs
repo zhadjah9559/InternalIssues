@@ -1,4 +1,5 @@
-﻿using InternalIssues.Extensions;
+﻿using FluentValidation;
+using InternalIssues.Extensions;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -20,8 +21,8 @@ namespace InternalIssues.Models
 
         public int Id { get; set; }     //PK
 
-        [Required]
-        [StringLength(50)]
+        //[Required]
+        //[StringLength(50)]
         [Display(Name = "Project Name")]
         public string Name { get; set; }
 
@@ -39,9 +40,17 @@ namespace InternalIssues.Models
         public int? CompanyId { get; set; }
 
         //Navigational Properties
-        //Nav properties are the gateway to getting information from tables (Tickets table, Notifs table, etc)
-        public virtual ICollection<AppUser> Members { get; set; }
-        public virtual ICollection<Ticket> Tickets { get; set; }
-        public virtual Company Company { get; set; }
+        public ICollection<AppUser> Members { get; set; }
+        public ICollection<Ticket> Tickets { get; set; }
+        public Company Company { get; set; }
+    }
+
+    public class ProjectValidator : AbstractValidator<Project>
+    {
+        public ProjectValidator()
+        {
+            RuleFor(project => project.Name).NotNull();
+            RuleFor(project => project.Name).Length<Project>(3,50);
+        }
     }
 }

@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace InternalIssues.Areas.Identity.Pages.Account
 {
@@ -64,6 +65,14 @@ namespace InternalIssues.Areas.Identity.Pages.Account
 
         public async Task OnGetAsync(string returnUrl = null, string demoEmail = null)
         {
+            var user = await _userManager.GetUserAsync(User);
+            
+            //If There is already an existing user logged in
+            //if(user != null)
+            //{
+            //    return RedirectToAction("Index","Home");
+            //}
+
             if (!string.IsNullOrEmpty(ErrorMessage))
             {
                 ModelState.AddModelError(string.Empty, ErrorMessage);

@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,14 @@ namespace InternalIssues
     {
         public static async Task Main(string[] args)
         {
-            //CreateHostBuilder(args).Build().Run();
+            var config = new ConfigurationBuilder()
+               .AddJsonFile("appsettings.json")
+               .Build();
+
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(config)
+                .CreateLogger();
+
             var host = CreateHostBuilder(args).Build();
             await DataUtility.ManageDataAsync(host);
             host.Run();

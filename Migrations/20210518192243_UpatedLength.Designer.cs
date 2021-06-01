@@ -3,15 +3,17 @@ using System;
 using InternalIssues.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace InternalIssues.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210518192243_UpatedLength")]
+    partial class UpatedLength
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -268,6 +270,9 @@ namespace InternalIssues.Migrations
                     b.Property<int>("TicketTypeId")
                         .HasColumnType("integer");
 
+                    b.Property<int?>("TicketTypeId1")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Title")
                         .HasColumnType("text");
 
@@ -286,7 +291,7 @@ namespace InternalIssues.Migrations
 
                     b.HasIndex("TicketStatusId");
 
-                    b.HasIndex("TicketTypeId");
+                    b.HasIndex("TicketTypeId1");
 
                     b.ToTable("Tickets");
                 });
@@ -429,6 +434,9 @@ namespace InternalIssues.Migrations
 
                     b.Property<string>("Name")
                         .HasColumnType("text");
+
+                    b.Property<int>("TicketId")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -676,9 +684,7 @@ namespace InternalIssues.Migrations
 
                     b.HasOne("InternalIssues.Models.TicketType", "TicketType")
                         .WithMany()
-                        .HasForeignKey("TicketTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("TicketTypeId1");
 
                     b.Navigation("DeveloperUser");
 
