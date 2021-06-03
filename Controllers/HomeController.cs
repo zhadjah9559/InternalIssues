@@ -37,8 +37,6 @@ namespace InternalIssues.Controllers
         [Authorize]
         public async Task<IActionResult> Index()
         {
-
-
             DashboardViewModel model = new DashboardViewModel();
 
             var tickets = _context.Tickets.Include(t => t.TicketPriority)
@@ -100,8 +98,12 @@ namespace InternalIssues.Controllers
             return View();
         }
 
-        public IActionResult LandingPage()
-        {
+        public async Task<IActionResult> LandingPage()
+        {         
+            //if there is already a user that is already authenticated (because they forgot to logout)
+            if (User.Identity.IsAuthenticated)
+                return RedirectToAction("Index","Home");
+
             return View();
         }
 

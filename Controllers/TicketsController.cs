@@ -73,8 +73,8 @@ namespace InternalIssues.Controllers
         public async Task<IActionResult> MyTickets()
         {
             var model = new List<Ticket>();
-            //test if admin
-            if (User.IsInRole("Admin"))
+
+            if (User.IsInRole("Admin"))                     //admin
             {
                 model = await _context.Tickets
                 .Include(t => t.DeveloperUser)
@@ -83,56 +83,36 @@ namespace InternalIssues.Controllers
                 .Include(t => t.TicketPriority)
                 .Include(t => t.TicketStatus).ToListAsync();
             }
-            else if (User.IsInRole("ProjectManager")) // pm
+            else if (User.IsInRole("ProjectManager"))       //pm
             {
-                //get the user id
                 var userId = _userManager.GetUserId(User);
-
-                //connect to projects table and tickets table based on user id
-                //
                 var projects = await _projectService.ListUserProjectsAsync(userId);
-
-                //look at each project and each ticket
                 model = projects.SelectMany(p => p.Tickets).ToList();
             }
-            else if (User.IsInRole("Developer"))  //dev
+            else if (User.IsInRole("Developer"))            //dev
             {
-                //check to see if any of the tickets inside the DB has the same UserId 
                 var userId = _userManager.GetUserId(User);
-                model = _context.Tickets.Where(t => t.DeveloperUserId == userId).ToList();
+                model = _context.Tickets.Where(t => t.DeveloperUserId == userId)
+                    .Include(t => t.DeveloperUser)
+                    .Include(t => t.OwnerUser)
+                    .Include(t => t.Project)
+                    .Include(t => t.TicketPriority)
+                    .Include(t => t.TicketStatus)
+                    .Include(t => t.TicketType).ToList();
             }
-            else
+            else                                            //Owner
             {
                 var userId = _userManager.GetUserId(User);
-                model = _context.Tickets.Where(t => t.OwnerUserId == userId).ToList();
-            }  //owner
+                model = _context.Tickets.Where(t => t.OwnerUserId == userId)
+                    .Include(t => t.DeveloperUser)
+                    .Include(t => t.OwnerUser)
+                    .Include(t => t.Project)
+                    .Include(t => t.TicketPriority)
+                    .Include(t => t.TicketStatus)
+                    .Include(t => t.TicketType).ToList();
+            }  
+
             return View(model);
-        }
-
-        public async Task<IActionResult> AssignTickets(int? projectId)
-        {
-            if(projectId == null)
-            {
-                ViewData["TicketsIds"] = new SelectList(_context.Tickets, "Id", "Title");
-                ViewData["DeveloperIds"] = new SelectList(await _userManager.GetUsersInRoleAsync(Roles.Developer.ToString()), "Id", "FullName");
-                return View();
-            }
-
-            ViewData["TicketsIds"] = new SelectList(_context.Tickets.Where(t => t.ProjectId == projectId), "Id", "Title");
-            ViewData["DeveloperIds"] = new SelectList(await _projectService.DevelopersOnProjectAsync((int)projectId), "Id", "FullName");
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AssignTickets(int ticketId, string developerId)
-        {
-            var ticket = await _context.Tickets.FindAsync(ticketId);
-            ticket.DeveloperUserId = developerId;
-            ticket.TicketStatus.Name = "Assigned";
-            await _context.SaveChangesAsync();
-
-            return RedirectToAction("Details", new { id = ticketId });
         }
 
         public async Task<IActionResult> GoToTicket(int? id)

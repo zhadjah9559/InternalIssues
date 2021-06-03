@@ -19,11 +19,7 @@
                                     <li class="nav-item">
                                         <a class="nav-link" asp-controller="Tickets" asp-action="Index">All Tickets</a>
                                     </li>
-
-                                    <li class="nav-item">
-                                        <a class="nav-link" asp-controller="Tickets" asp-action="AssignTickets">Assign Tickets</a>
-                                    </li>
-
+                                                                       
                                     <li class="nav-item">
                                         <a class="nav-link" asp-controller="Tickets" asp-action="Create">Submit Ticket</a>
                                     </li>
@@ -84,7 +80,7 @@
                                 <a class="nav-link" asp-controller="Tickets" asp-action="MyTickets">My Tickets</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" asp-controller="Tickets" asp-action="AllTickets">All Tickets</a>
+                                <a class="nav-link" asp-controller="Tickets" asp-action="Create">Create Tickets</a>
                             </li>
                         </ul>
                     </div>
@@ -100,14 +96,15 @@
                     <div class="collapse" id="Projects">
                         <ul class="nav flex-column sub-menu">
                             <li class="nav-item">
-                                <a class="nav-link" asp-controller="" asp-action="">Assign Users</a>
+                                <a class="nav-link" asp-controller="Projects" asp-action="MyProjects">My Projects</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" asp-controller="" asp-action="">Remove Users</a>
+                                <a class="nav-link" asp-controller="Projects" asp-action="Index">All Projects</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" asp-controller="Projects" asp-action="ManageUsersOnProject">View Projects</a>
+                                <a class="nav-link" asp-controller="Project" asp-action="ManageUsersOnProject">Manage Projects</a>
                             </li>
+
                         </ul>
                     </div>
                 </li>

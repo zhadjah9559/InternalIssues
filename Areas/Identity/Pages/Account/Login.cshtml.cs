@@ -32,12 +32,16 @@ namespace InternalIssues.Areas.Identity.Pages.Account
             IConfiguration configuration)
         {
             _userManager = userManager;
-
+            
             //IConfguartion has been injected in order to compare the 
             _configuration = configuration;
             _signInManager = signInManager;
             _logger = logger;
         }
+
+
+        
+
 
         [BindProperty]
         public InputModel Input { get; set; }

@@ -18,19 +18,22 @@ namespace InternalIssues.Services
 
         public async Task<int> GetNumberOfAllTickets()
         {
-            //Get number of all tickets across all projects
             return await _context.Tickets.CountAsync();
         }
 
         public async Task<int> GetNumberOfAllAssignedTickets()
         {
-            return await _context.Tickets.Where(t => !string.IsNullOrWhiteSpace(t.DeveloperUserId) ).CountAsync();
+            return await _context.Tickets.Where(t => t.TicketStatus.Name == "Development" ).CountAsync();
         }
-
 
         public async Task<int> GetNumberOfAllUnAssignedTickets()
         {
-            return await _context.Tickets.Where(t => string.IsNullOrWhiteSpace(t.DeveloperUserId) ).CountAsync();
+            var assignedTickets = await GetNumberOfAllAssignedTickets();
+            var totalTicketsCount = await _context.Tickets.Where(t => t.Id != 0).CountAsync();
+
+            var unAssignedTickets = totalTicketsCount - assignedTickets;
+
+            return unAssignedTickets;
         }
 
         //Get all the tickets whose TicketStatus = Open 

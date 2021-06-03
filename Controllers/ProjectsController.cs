@@ -9,6 +9,8 @@ using InternalIssues.Data;
 using InternalIssues.Models;
 using InternalIssues.Services;
 using InternalIssues.Data.Enums;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace InternalIssues.Controllers
 {
@@ -17,16 +19,19 @@ namespace InternalIssues.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IProjectService _projectService;
         private readonly IRoleService _roleService;
+        private readonly UserManager<AppUser> _userManager;
 
         //Overload constructor to implement ctor injection
-        public ProjectsController(ApplicationDbContext context, IProjectService projectService, IRoleService roleService)
+        public ProjectsController(ApplicationDbContext context, IProjectService projectService, IRoleService roleService, UserManager<AppUser> userManager)
         {
             _context = context;
             _projectService = projectService;
             _roleService = roleService;
+            _userManager = userManager;
         }
 
         //GET
+        [Authorize(Roles = "Admin,ProjectManager")]
         public async Task<IActionResult> ManageUsersOnProject()
         {
             ViewData["ProjectId"] = new SelectList(_context.Set<Project>(), "Id", "Name");
@@ -38,6 +43,7 @@ namespace InternalIssues.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,ProjectManager")]
         public async Task<IActionResult> ManageUsersOnProject(int projectId, string projectManagerId, 
                                                               List<string> developerIds, List<string> submitterIds)
         {
@@ -58,6 +64,14 @@ namespace InternalIssues.Controllers
             }
             return RedirectToAction();
         }
+
+        public async Task<IActionResult> MyProjects()
+        {
+            var userId = _userManager.GetUserId(User);
+            var projects = await _projectService.ListUserProjectsAsync(userId);
+            return View(projects.OrderByDescending(p => p.Id).ToList());
+        }
+
 
         // GET: Projects
         public async Task<IActionResult> Index()

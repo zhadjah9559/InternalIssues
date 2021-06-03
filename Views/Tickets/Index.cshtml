@@ -23,9 +23,9 @@
                                     <th>
                                         Title
                                     </th>
-                                    <th>
+                                    @*<th>
                                         Created
-                                    </th>
+                                    </th>*@
                                     <th>
                                         Ticket Type
                                     </th>
@@ -38,12 +38,7 @@
                                     <th>
                                         Ticket Status
                                     </th>
-                                    @*<th>
-                                        @Html.DisplayNameFor(model => model.OwnerUser)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.DeveloperUser)
-                                    </th>*@
+                                 
                                     <th></th>
                                 </tr>
                             </thead>
@@ -54,9 +49,9 @@
                                         <td>
                                             @Html.DisplayFor(modelItem => item.Title)
                                         </td>
-                                        <td>
+                                        @*<td>
                                             @Html.DisplayFor(modelItem => item.Created)
-                                        </td>
+                                        </td>*@
                                         <td>
                                             @Html.DisplayFor(modelItem => item.TicketType.Name)
                                         </td>
@@ -69,12 +64,7 @@
                                         <td>
                                             @Html.DisplayFor(modelItem => item.TicketStatus.Name)
                                         </td>
-                                        @*<td>
-                                            @Html.DisplayFor(modelItem => item.OwnerUser.FirstName)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.DeveloperUser.FullName)
-                                        </td>*@
+                                        
                                         <td>
                                             <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                                             <a asp-action="Details" asp-route-id="@item.Id">Details</a>
